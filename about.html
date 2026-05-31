@@ -1,176 +1,305 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>About Us-Riches Bosses Blog</title>
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="icon" type="image/x-icon" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Riches Bosses Blog</title>
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    
+    <!-- Bootstrap 5.3.2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <!-- AOS Animation Engine CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+
+    <style>
+        /* Base Background Styling */
+        body {
+            background: linear-gradient(135deg, #090b11 0%, #0d1527 50%, #161233 100%) no-repeat center center fixed;
+            background-size: cover;
+            color: #f3f4f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism Structural Definition */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px) saturate(130%);
+            -webkit-backdrop-filter: blur(20px) saturate(130%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Header / Nav Link Styles */
+        .nav-link {
+            color: rgba(255, 255, 255, 0.7) !important;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #ffffff !important;
+            text-shadow: 0 0 8px rgba(255,255,255,0.5);
+        }
+
+        /* Neon Text Accents */
+        .text-accent {
+            color: #38bdf8;
+        }
+        .border-accent {
+            border-left: 4px solid #38bdf8;
+            padding-left: 12px;
+        }
+        
+        .team-list-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            padding: 12px 20px;
+            color: #f472b6; /* Soft pink replacing the old hardcoded pink */
+            font-weight: 500;
+        }
+
+        /* Glass Accordion Overrides */
+        .accordion-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px !important;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        .accordion-button {
+            background: transparent;
+            color: #ffffff;
+            font-weight: 600;
+            box-shadow: none !important;
+        }
+        .accordion-button:not(.collapsed) {
+            background: rgba(56, 189, 248, 0.1);
+            color: #38bdf8;
+        }
+        .accordion-button::after {
+            filter: invert(1);
+        }
+        .accordion-body {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            white-space: pre-line;
+        }
+
+        /* Footer & Social Links */
+        .social-links a {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.3rem;
+            transition: transform 0.3s, color 0.3s;
+            display: inline-block;
+        }
+        .social-links a:hover {
+            color: #ffffff;
+            transform: scale(1.2);
+        }
+        
+        .disclaimer-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .disclaimer-box h2, .disclaimer-box h3 {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-	<header>
-		<nav>
-			<ul>
-				<li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
-				<li><a href="Music.html"><i class="fa fa-music"></i>Music</a></li>
-				 <li><a href="video.html"><i class="fa fa-film"></i>Movies</a></li>
-				 <li><a href="story.html"><i class="fas fa-pen-nib"></i>Stories</a></li>
-				<li><a href="about.html" class="active"><i class="fas fa-user"></i>About</a></li>
-				<li><a href="contact.html"><i class="fas fa-envelope"></i>Contact</a></li>
-			</ul>
-		</nav>
+    <span id="top"></span>
 
-<div class="nav-menu">
-  <div class="nav-lines">
-    <span class="line"></span>
-    <span class="line"></span>
-    <span class="line"></span>
-  </div>
-  <ul class="nav-links">
-    <li><a href="index.html"class="active"><i class="fas fa-home"></i>Home</a> </li>
-	<li><a href="Music.html"><i class="fa fa-music"></i>Music</a></li>
-	 <li><a href="video.html"><i class="fa fa-film"></i>Movies</a></li>
-	 <li><a href="story.html"><i class="fas fa-pen-nib"></i>Stories</a></li>
-      <li><a href="about.html"><i class="fas fa-user"></i>About</a></li>
-      <li><a href="contact.html"><i class="fas fa-envelope"></i>Contact</a></li>
-  </ul>
-</div>
-	</header>
-	<main>
-	<div class="carousel">
-<div class="carousel-inner">
-<div class="carousel-item active">
-<a href="https://www.example.com/link1">
-<img src="logo.jpg" alt="Image 1">
-</a>
-</div>
-<div class="carousel-item">
-<a href="https://www.example.com/link2">
-<img src="favicon.png" alt="Image 2">
-</a>
-</div>
-<div class="carousel-item">
-<a href="https://www.example.com/link3">
-<img src="cover.jpg" alt="Image 3">
-</a>
-</div>
-</div>
-</div>
+    <!-- Header / Global Nav Block -->
+    <header class="mb-4">
+        <nav class="navbar navbar-expand-lg glass-panel mt-3 mx-2 mx-md-4 px-3">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white fw-bold" href="index.html">RICHES-BLOG</a>
+                
+                <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="bi bi-list fs-2 text-white"></span>
+                </button>
 
-<script>
-const carouselItems = document.querySelectorAll('.carousel-item');
-let currentActiveIndex = 0;
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1">
+                        <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-door-fill me-1"></i>Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Music.html"><i class="bi bi-music-note-beamed me-1"></i>Music</a></li>
+                        <li class="nav-item"><a class="nav-link" href="video.html"><i class="bi bi-film me-1"></i>Movies</a></li>
+                        <li class="nav-item"><a class="nav-link" href="story.html"><i class="bi bi-pen-fill me-1"></i>Stories</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="about.html"><i class="bi bi-person-fill me-1"></i>About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.html"><i class="bi bi-envelope-fill me-1"></i>Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-function changeSlide() {
-carouselItems[currentActiveIndex].classList.remove('active');
-currentActiveIndex = (currentActiveIndex + 1) % carouselItems.length;
-carouselItems[currentActiveIndex].classList.add('active');
-}
+    <!-- Main Container Area -->
+    <main class="container my-5" style="max-width: 950px;">
+        
+        <!-- IMAGE PROMOTIONAL BRAND CAROUSEL SLIDER -->
+        <div id="promoCarousel" class="carousel slide glass-panel p-2 shadow-lg mb-5" data-bs-ride="carousel" data-aos="fade-down">
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="3000">
+                    <a href="https://www.example.com/link1">
+                        <img src="logo.jpg" class="d-block w-100 rounded-4" style="height:260px; object-fit:cover;" alt="Slide 1">
+                    </a>
+                </div>
+                <div class="carousel-item" data-bs-interval="3000">
+                    <a href="https://www.example.com/link2">
+                        <img src="favicon.png" class="d-block w-100 rounded-4" style="height:260px; object-fit:cover;" alt="Slide 2">
+                    </a>
+                </div>
+                <div class="carousel-item" data-bs-interval="3000">
+                    <a href="https://www.example.com/link3">
+                        <img src="cover.jpg" class="d-block w-100 rounded-4" style="height:260px; object-fit:cover;" alt="Slide 3">
+                    </a>
+                </div>
+            </div>
+        </div>
 
-setInterval(changeSlide, 3000);
-</script>
+        <!-- About Us Content Section -->
+        <section class="glass-panel p-4 p-md-5 mb-5 shadow-lg" data-aos="fade-up">
+            <h1 class="fw-bold mb-4 border-accent">About Us</h1>
+            <p class="fs-5 text-white-50 mb-5">
+                Welcome to <strong class="text-white">RICHES BOSSES BLOG!</strong><br>
+                At RICHES BOSSES BLOG, we're passionate about providing a one-stop platform for all your entertainment needs. Our website is designed to bring you the latest music, movies, stories, and more, all in one place.
+            </p>
 
+            <h2 class="h3 fw-bold mb-3 text-accent">Our Mission</h2>
+            <p class="text-white-50 mb-5">
+                Our mission is simple: to make entertainment easily accessible and enjoyable for everyone. We believe that music, movies, and stories have the power to inspire, educate, and unite people, and we want to be a part of that.
+            </p>
 
-		<h1>About Us</h1>
-		<p style="color: #FFFFFF;"> Welcome to RICHES BOSSES BLOG!
-At RICHES BOSSES BLOG, we're passionate about providing a one-stop platform for all your entertainment needs. Our website is designed to bring you the latest music, movies, stories, and more, all in one place.
-.</p>
-		<h2>Our Mission</h2>
-<p style="color: #FFFFFF;">Our mission is simple: to make entertainment easily accessible and enjoyable for everyone. We believe that music, movies, and stories have the power to inspire, educate, and unite people, and we want to be a part of that.
-</p>
-<h3>Our Team</h3>
-<p style="color: #FF69B4;">
-<ul>
-<li>ABDUL MUMUIN ALHASSAN - Founder</li>
-<li>ABDUL MUMUIN ALHASSAN- Developer</li>
-<li>ABDUL MUMUIN ALHASSAN - Designer</li>
-</ul></P>
-</div>
-<div id="accordion">
-<h3>What We Offer</h3>
-<div>
-<p>On our website, you'll find a vast library of:
+            <h3 class="h4 fw-bold mb-3 text-accent">Our Team</h3>
+            <ul class="list-unstyled mb-0">
+                <li class="team-list-item"><i class="bi bi-person-badge-fill me-2 text-white-50"></i> ABDUL MUMUIN ALHASSAN - Founder</li>
+                <li class="team-list-item"><i class="bi bi-code-slash me-2 text-white-50"></i> ABDUL MUMUIN ALHASSAN - Developer</li>
+                <li class="team-list-item"><i class="bi bi-brush-fill me-2 text-white-50"></i> ABDUL MUMUIN ALHASSAN - Designer</li>
+            </ul>
+        </section>
 
-- Music: Stream and download your favorite songs and albums from various genres and artists.
-- Movies: Watch and download the latest movies, including blockbuster hits and independent films.
-- Stories: Read and download e-books, novels, and other literary works from emerging and established authors.
-</p>
-</div>
-<h3>Our Value</h3>
-<div>
-<p>At RICHES BOSSES BLOG, we value:
+        <!-- Dynamic Accordion Section -->
+        <section class="mb-5" data-aos="fade-up" data-aos-delay="100">
+            <div class="accordion" id="aboutAccordion">
+                
+                <!-- Accordion Item 1 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <i class="bi bi-stars me-2"></i> What We Offer
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#aboutAccordion">
+                        <div class="accordion-body">
+                            On our website, you'll find a vast library of:
+                            
+                            • <strong>Music:</strong> Stream and download your favorite songs and albums from various genres and artists.
+                            • <strong>Movies:</strong> Watch and download the latest movies, including blockbuster hits and independent films.
+                            • <strong>Stories:</strong> Read and download e-books, novels, and other literary works from emerging and established authors.
+                        </div>
+                    </div>
+                </div>
 
-- Quality: We strive to provide high-quality content that meets your expectations.
-- Accessibility: We believe that entertainment should be accessible to everyone, regardless of their location or device.
-- Community: We want to build a community of entertainment lovers who can share, discover, and enjoy new content together.
-</p>
-</div>
-<h3>Join Our Community</h3>
-<div>
-<p>Sign up for our newsletter or follow us on social media to stay up-to-date with the latest news, updates, and promotions.
+                <!-- Accordion Item 2 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="bi bi-gem me-2"></i> Our Values
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#aboutAccordion">
+                        <div class="accordion-body">
+                            At RICHES BOSSES BLOG, we value:
+                            
+                            • <strong>Quality:</strong> We strive to provide high-quality content that meets your expectations.
+                            • <strong>Accessibility:</strong> We believe that entertainment should be accessible to everyone, regardless of their location or device.
+                            • <strong>Community:</strong> We want to build a community of entertainment lovers who can share, discover, and enjoy new content together.
+                        </div>
+                    </div>
+                </div>
 
-Thank you for choosing RICHES BOSSES BLOG as your go-to entertainment platform!
+                <!-- Accordion Item 3 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <i class="bi bi-people-fill me-2"></i> Join Our Community
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#aboutAccordion">
+                        <div class="accordion-body">
+                            Sign up for our newsletter or follow us on social media to stay up-to-date with the latest news, updates, and promotions.
+                            
+                            Thank you for choosing RICHES BOSSES BLOG as your go-to entertainment platform!
+                            
+                            Best regards,
+                            <strong>[ABDUL MUMUIN ALHASSAN]</strong> ___ RICHES BOSSES BLOG Team
+                        </div>
+                    </div>
+                </div>
 
-Best regards,
+            </div>
+        </section>
 
-[ABDUL MUMUIN ALHASSAN]___RICHES BOSSES BLOG Team
-</p>
-</div>
-	</main>
-	
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<script>
-$(document).ready(function(){
-$("#accordion").accordion({
-collapsible: true,
-active: false
-});
-});
-</script>
-	
-	<!-- Footer Section -->
-	<footer>
-		<!-- ... -->
-<ul class="social-media-links">
-<li><a href="https://www.x.com/am_deejay_alex" target="_blank"><i class="fab fa-twitter"></i>X</a></li>
-<li><a href="https://www.facebook.com/richesbosseswealthy" target="_blank"><i class="fab fa-facebook"></i>Facebook</a></li>
-<li><a href="https://www.instagram.com/richesbosses" target="_blank"><i class="fab fa-instagram"></i>Instagram</a></li>
-<li><a href="#" target="_blank"><i class="fab fa-linkedin"></i>LinkedIn</a></li>
-</ul>
-<div class="disclaimer">
-<h2>DISCLAIMER</h2>
-<p>The views and opinions expressed in this post are solely those of the author and do not necessarily reflect the views or opinions of our organization, its affiliates, or its employees.</p>
-<p>We are not responsible for any external links or content that may be linked to or referenced in this post. We do not endorse or sponsor any external content, and we cannot guarantee its accuracy or reliability.</p>
-<p>All information provided in this post is for general informational purposes only. It is not intended to be, and should not be relied upon as, professional advice or opinion.</p>
-<p>We make no representations or warranties of any kind, express or implied, about the accuracy, reliability, or completeness of the information contained in this post.</p>
-<p>By engaging with this content, you acknowledge that you have read, understood, and agreed to these terms.</p>
-<h3>Additional Terms:</h3>
-<ul>
-<li>You will not rely solely on the information contained in this post for making decisions.</li>
-<li>You will seek professional advice before making any decisions.</li>
-<li>You will not hold us liable for any damages or losses resulting from your reliance on the information contained in this post.</li>
-</ul>
-</div>
+    </main>
 
+    <!-- Footer Area Components -->
+    <footer class="glass-panel mx-2 mx-md-4 my-4 p-4 p-md-5 text-center shadow position-relative">
+        <div class="social-links d-flex justify-content-center gap-4 mb-4">
+            <a href="https://www.x.com/am_deejay_alex" target="_blank" title="X (Twitter)"><i class="bi bi-twitter-x"></i></a>
+            <a href="https://www.facebook.com/richesbosseswealthy" target="_blank" title="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/richesbosses" target="_blank" title="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" target="_blank" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+        </div>
+        
+        <!-- Styled Disclaimer Block -->
+        <div class="disclaimer-box mx-auto mb-4" style="max-width: 800px;">
+            <h2 class="text-uppercase border-bottom border-secondary pb-2"><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i> Disclaimer</h2>
+            <p>The views and opinions expressed in this post are solely those of the author and do not necessarily reflect the views or opinions of our organization, its affiliates, or its employees.</p>
+            <p>We are not responsible for any external links or content that may be linked to or referenced in this post. We do not endorse or sponsor any external content, and we cannot guarantee its accuracy or reliability.</p>
+            <p>All information provided in this post is for general informational purposes only. It is not intended to be, and should not be relied upon as, professional advice or opinion.</p>
+            <p>We make no representations or warranties of any kind, express or implied, about the accuracy, reliability, or completeness of the information contained in this post.</p>
+            <p>By engaging with this content, you acknowledge that you have read, understood, and agreed to these terms.</p>
+            
+            <h3 class="mt-3">Additional Terms:</h3>
+            <ul class="mb-0 ps-3">
+                <li>You will not rely solely on the information contained in this post for making decisions.</li>
+                <li>You will seek professional advice before making any decisions.</li>
+                <li>You will not hold us liable for any damages or losses resulting from your reliance on the information contained in this post.</li>
+            </ul>
+        </div>
 
-<p>&copy; 2025 Riches Bosses Blog. All rights reserved.</p>
-<button id="back-to-top" onclick="window.scrollTo(0, 0);">
-  <a id="scroll-to-top" href="#top">
-  <i class="fas fa-chevron-up"></i>
-</a>
-</button>
-	</footer>
-	
+        <p class="mb-0 text-white-50">&copy; 2026 Riches Bosses Blog. All rights reserved.</p>
+        
+        <div class="mt-4">
+            <a href="#top" class="btn btn-outline-light rounded-pill px-4 py-2 small">
+                <i class="bi bi-arrow-up-circle-fill fs-5 align-middle me-2"></i> Back to Top
+            </a>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5.3.2 Bundled JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Scroll Engine Framework JS -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
