@@ -168,6 +168,13 @@
             background: rgba(255,255,255,0.06);
             border-color: rgba(255,179,71,0.2);
         }
+        
+        .metadata-badge {
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 215, 120, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -270,10 +277,10 @@
             return params.get('id');
         }
 
-        // Boot and Pull Complete Audio Records Matrix
+        // Boot and Pull Complete Audio Records Matrix (Upgraded to music_profile)
         async function loadAudioLibrary() {
             try {
-                let query = supabase.from('music').select('*').order('id', { ascending: false });
+                let query = supabase.from('music_profile').select('*').order('id', { ascending: false });
                 
                 const { data, error } = await query;
                 if(error) throw error;
@@ -283,13 +290,13 @@
 
             } catch(err) {
                 console.error("Critical telemetry network fault loading track records:", err);
-                document.getElementById('masterPlayerDashboard').innerHTML = `<div class="alert alert-danger bg-dark border-danger text-danger w-100 mb-0 small">Table connectivity schema lookup error on music profile lists.</div>`;
+                document.getElementById('masterPlayerDashboard').innerHTML = `<div class="alert alert-danger bg-dark border-danger text-danger w-100 mb-0 small">Table connectivity schema lookup error on music_profile lists.</div>`;
             }
         }
 
         function renderEcosystem() {
             if(activeTrackList.length === 0) {
-                document.getElementById('masterPlayerDashboard').innerHTML = `<div class="text-muted text-center py-4 w-100">Zero entries exist inside music grid schemas.</div>`;
+                document.getElementById('masterPlayerDashboard').innerHTML = `<div class="text-muted text-center py-4 w-100">Zero entries exist inside music_profile grid schemas.</div>`;
                 return;
             }
 
@@ -308,10 +315,18 @@
                 </div>
                 
                 <div class="w-100">
-                    <div class="text-center text-md-start mb-3">
+                    <div class="text-center text-md-start mb-2">
                         <span class="badge bg-dark border border-secondary text-gold mb-2" style="font-size:0.7rem;">${escapeHtml(chosenTrack.category || 'Release')}</span>
                         <h2 class="h4 mb-1 text-white fw-bold" id="playerTitleElement">${escapeHtml(chosenTrack.title)}</h2>
-                        <p class="text-white-50 mb-0" id="playerArtistElement">${escapeHtml(chosenTrack.artist)}</p>
+                        <p class="text-white-50 mb-2" id="playerArtistElement">${escapeHtml(chosenTrack.artist)}</p>
+                    </div>
+
+                    <!-- Dynamic Track Info Displays -->
+                    <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2 mb-3">
+                        <span class="badge rounded-pill metadata-badge text-white-50"><i class="bi bi-activity text-gold me-1"></i> BPM: ${escapeHtml(chosenTrack.bpm || '--')}</span>
+                        <span class="badge rounded-pill metadata-badge text-white-50"><i class="bi bi-music-note text-gold me-1"></i> Key: ${escapeHtml(chosenTrack.key || '--')}</span>
+                        <span class="badge rounded-pill metadata-badge text-white-50"><i class="bi bi-person-gear text-gold me-1"></i> Prod: ${escapeHtml(chosenTrack.producer || 'RICHES CEO')}</span>
+                        <span class="badge rounded-pill metadata-badge text-white-50"><i class="bi bi-bar-chart text-gold me-1"></i> Streams: ${escapeHtml(chosenTrack.plays || '0')}</span>
                     </div>
 
                     <div class="progress-container mb-2" id="progress-container" onclick="scrubAudioTimeline(event)">
