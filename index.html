@@ -433,7 +433,7 @@
 
             // 2. POPULATE LIVE AUDIO TAB RELEASES (Upgraded to music_profile & Rich Telemetry)
             try {
-                const { data: music, error } = await supabase.from('music_profile').select('*').order('id', { ascending: false }).limit(6);
+                const { data: music, error } = await supabase.from('music_profiles').select('*').order('id', { ascending: false }).limit(6);
                 const musicTarget = document.getElementById('liveMusicFeed');
                 if(error) throw error;
 
