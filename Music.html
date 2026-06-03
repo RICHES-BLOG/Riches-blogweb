@@ -280,7 +280,7 @@
         // Boot and Pull Complete Audio Records Matrix (Upgraded to music_profile)
         async function loadAudioLibrary() {
             try {
-                let query = supabase.from('music_profile').select('*').order('id', { ascending: false });
+                let query = supabase.from('music_profiles').select('*').order('id', { ascending: false });
                 
                 const { data, error } = await query;
                 if(error) throw error;
