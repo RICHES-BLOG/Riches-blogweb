@@ -93,7 +93,8 @@
         }
 
         .modal-content input, .modal-content textarea, .modal-content select {
-            padding: 14px 16px;
+            padding: 12px 16px;
+            margin-bottom: 5px;
         }
 
         .login-box input:focus, .modal-content input:focus, .modal-content textarea:focus, .modal-content select:focus {
@@ -293,6 +294,7 @@
             color: rgba(255, 255, 255, 0.8);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             font-size: 0.95rem;
+            vertical-align: middle;
         }
 
         .data-table tr:last-child td {
@@ -368,14 +370,14 @@
         }
 
         .modal-content {
-            background: rgba(20, 24, 46, 0.75);
+            background: rgba(20, 24, 46, 0.95);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.12);
             padding: 35px;
             border-radius: 24px;
             width: 100%;
-            max-width: 600px;
+            max-width: 750px;
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
@@ -383,15 +385,48 @@
 
         .modal-content h3 {
             color: #FFD778;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
         }
 
         .modal-content label {
             display: block;
-            margin: 15px 0 5px 0;
-            font-size: 0.9rem;
+            margin: 10px 0 4px 0;
+            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+
+        /* Sub-grid layouts inside dynamic forms */
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        .form-col {
+            flex: 1;
+            min-width: 0;
+        }
+        .flag-group {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin: 15px 0;
+        }
+        .flag-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .flag-item:last-child { margin-bottom: 0; }
+        .flag-item input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+            accent-color: #FFB347;
         }
 
         /* Micro-Animations & Dynamic Feedback Elements */
@@ -414,6 +449,24 @@
             gap: 12px;
             animation: slideIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
+
+        .table-thumb {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-explicit { background: rgba(220, 53, 69, 0.2); color: #ff6b7a; border: 1px solid rgba(220, 53, 69, 0.3); }
+        .badge-featured { background: rgba(255, 179, 71, 0.2); color: #FFD778; border: 1px solid rgba(255, 179, 71, 0.3); }
 
         @keyframes slideIn {
             from { transform: translateX(120%); opacity: 0; }
@@ -438,6 +491,7 @@
             .sidebar.open { transform: translateX(0); }
             .main-content { margin-left: 0; width: 100%; padding: 20px; }
             .menu-toggle { display: inline-flex; }
+            .form-row { flex-direction: column; gap: 0; }
         }
     </style>
 </head>
@@ -457,7 +511,6 @@
         
         function initSupabase() {
             try {
-                // Instantiating via window layer safely
                 supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             } catch (err) {
                 console.error("Initialization layer error:", err);
@@ -524,11 +577,10 @@
                         <h2><i class="fas fa-crown"></i> RICHES BOSSES</h2>
                         <nav>
                             <a href="#" data-tab="dashboard" class="active"><i class="fas fa-chart-line"></i> Analytics Overview</a>
-                            <a href="#" data-tab="music"><i class="fas fa-music"></i> Audio Records</a>
-                            <a href="#" data-tab="movies"><i class="fas fa-film"></i> Cinema Streams</a>
-                            <a href="#" data-tab="blog"><i class="fas fa-blog"></i> Narrative Feed</a>
-                            <a href="#" data-tab="contacts"><i class="fas fa-envelope"></i> Core Inbox</a>
-                            <a href="#" data-tab="subscribers"><i class="fas fa-users"></i> General Audience</a>
+                            <a href="#" data-tab="music_profiles"><i class="fas fa-music"></i> Audio Records</a>
+                            <a href="#" data-tab="movies_pipeline"><i class="fas fa-film"></i> Cinema Streams</a>
+                            <a href="#" data-tab="blog_posts"><i class="fas fa-blog"></i> Narrative Feed</a>
+                            <a href="#" data-tab="contact_messages"><i class="fas fa-envelope"></i> Core Inbox</a>
                             <a href="#" data-tab="import"><i class="fas fa-upload"></i> Engine Sync</a>
                         </nav>
                     </div>
@@ -552,65 +604,54 @@
                             </div>
                         </div>
                         
-                        <div id="music" class="tab-content">
+                        <div id="music_profiles" class="tab-content">
                             <div style="margin-bottom: 25px;">
-                                <button class="btn btn-primary" onclick="openAddModal('music')"><i class="fas fa-plus-circle"></i> catalog new release</button>
+                                <button class="btn btn-primary" onclick="openAddModal('music_profiles')"><i class="fas fa-plus-circle"></i> catalog new release</button>
                             </div>
                             <div class="data-table">
                                 <div class="table-responsive-wrapper">
                                     <table>
-                                        <thead><tr><th>Track Identification</th><th>Song Title</th><th>Lead Artist</th><th>Sonic Genre</th><th>Streams</th><th>Operations</th></tr></thead>
+                                        <thead><tr><th>Artwork</th><th>Song Title</th><th>Lead Artist</th><th>Genre / Cat</th><th>Metrics</th><th>Operations</th></tr></thead>
                                         <tbody id="musicTableBody"><tr><td colspan="6" class="loading"><i class="fas fa-spinner spinner"></i> Indexing data tracks...</td></tr></tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                         
-                        <div id="movies" class="tab-content">
+                        <div id="movies_pipeline" class="tab-content">
                             <div style="margin-bottom: 25px;">
-                                <button class="btn btn-primary" onclick="openAddModal('movies')"><i class="fas fa-plus-circle"></i> register digital film</button>
+                                <button class="btn btn-primary" onclick="openAddModal('movies_pipeline')"><i class="fas fa-plus-circle"></i> register digital film</button>
                             </div>
                             <div class="data-table">
                                 <div class="table-responsive-wrapper">
                                     <table>
-                                        <thead><tr><th>Catalog ID</th><th>Cinematic Title</th><th>Media Category</th><th>Release Phase</th><th>Operations</th></tr></thead>
+                                        <thead><tr><th>Thumbnail</th><th>Cinematic Title</th><th>Media Category</th><th>Release Year</th><th>Operations</th></tr></thead>
                                         <tbody id="moviesTableBody"><tr><td colspan="5" class="loading"><i class="fas fa-spinner spinner"></i> Tracking storage volumes...</td></tr></tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                         
-                        <div id="blog" class="tab-content">
+                        <div id="blog_posts" class="tab-content">
                             <div style="margin-bottom: 25px;">
                                 <button class="btn btn-primary" onclick="openAddModal('blog_posts')"><i class="fas fa-plus-circle"></i> compose new post</button>
                             </div>
                             <div class="data-table">
                                 <div class="table-responsive-wrapper">
                                     <table>
-                                        <thead><tr><th>Post ID</th><th>Document Title</th><th>Category Link</th><th>Status</th><th>Operations</th></tr></thead>
+                                        <thead><tr><th>Document Title</th><th>Category</th><th>Badge</th><th>Created At</th><th>Operations</th></tr></thead>
                                         <tbody id="blogTableBody"><tr><td colspan="5" class="loading"><i class="fas fa-spinner spinner"></i> Querying article data...</td></tr></tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                         
-                        <div id="contacts" class="tab-content">
+                        <div id="contact_messages" class="tab-content">
                             <div class="data-table">
                                 <div class="table-responsive-wrapper">
                                     <table>
-                                        <thead><tr><th>ID</th><th>Client Label</th><th>Communications Link</th><th>Message Blueprint</th><th>State</th><th>Operations</th></tr></thead>
-                                        <tbody id="contactsTableBody"><tr><td colspan="6" class="loading"><i class="fas fa-spinner spinner"></i> Sifting entry fields...</td></tr></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div id="subscribers" class="tab-content">
-                            <div class="data-table">
-                                <div class="table-responsive-wrapper">
-                                    <table>
-                                        <thead><tr><th>Subscriber Token</th><th>Email Coordinates</th><th>Registry Stamp</th><th>Operations</th></tr></thead>
-                                        <tbody id="subscribersTableBody"><tr><td colspan="4" class="loading"><i class="fas fa-spinner spinner"></i> Indexing registry metrics...</td></tr></tbody>
+                                        <thead><tr><th>Client Label</th><th>Communications Link</th><th>Message Blueprint</th><th>Timestamp</th><th>Operations</th></tr></thead>
+                                        <tbody id="contactsTableBody"><tr><td colspan="5" class="loading"><i class="fas fa-spinner spinner"></i> Sifting entry fields...</td></tr></tbody>
                                     </table>
                                 </div>
                             </div>
@@ -626,20 +667,11 @@
                                     </div>
                                     <input type="file" id="jsonFile" accept=".json">
                                     <select id="importType">
-                                        <option value="music">Audio Archive (music)</option>
-                                        <option value="movies">Cinema Records (movies)</option>
+                                        <option value="music_profiles">Audio Archive (music_profiles)</option>
+                                        <option value="movies_pipeline">Cinema Records (movies_pipeline)</option>
                                         <option value="blog_posts">Narrative Elements (blog_posts)</option>
                                     </select>
                                     <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="importJSON()">Execute Injection Script</button>
-                                </div>
-                                
-                                <div class="stat-card" style="flex-direction:column; align-items:flex-start; justify-content:space-between;">
-                                    <div>
-                                        <i class="fas fa-database"></i>
-                                        <h3 style="font-size:1.4rem; margin-top:10px;">Load Blueprint Nodes</h3>
-                                        <p style="color:rgba(255,255,255,0.5); font-size:0.85rem; margin-top:4px;">Populate network nodes with standard mock templates.</p>
-                                    </div>
-                                    <button class="btn btn-gold" style="margin-top:auto;" onclick="loadSampleData()">Deploy Production Seeds</button>
                                 </div>
                             </div>
                             <div id="importStatus"></div>
@@ -650,16 +682,17 @@
                 <div id="itemModal" class="modal">
                     <div class="modal-content">
                         <h3 id="modalTitle">Structural Mutation Setup</h3>
-                        <div id="modalForm"></div>
-                        <div style="margin-top: 25px; display:flex; gap:12px; justify-content:flex-end;">
-                            <button class="btn" onclick="closeModal()">Abort Link</button>
-                            <button class="btn btn-primary" onclick="saveItem()">Commit Structure</button>
-                        </div>
+                        <form id="modalFormElement" onsubmit="saveItem(event)">
+                            <div id="modalForm"></div>
+                            <div style="margin-top: 25px; display:flex; gap:12px; justify-content:flex-end;">
+                                <button type="button" class="btn" onclick="closeModal()">Abort Link</button>
+                                <button type="submit" class="btn btn-primary">Commit Structure</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             `;
             
-            // Add event listeners for tabs dynamically
             document.querySelectorAll('[data-tab]').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -675,7 +708,6 @@
                 });
             });
             
-            // Protected Initial Load Strategy
             refreshAllDataViews();
         }
         
@@ -695,29 +727,26 @@
             loadMovies().catch(e => console.error(e));
             loadBlog().catch(e => console.error(e));
             loadContacts().catch(e => console.error(e));
-            loadSubscribers().catch(e => console.error(e));
         }
         
-        // ==================== PROTECTED CORE DATA LOADING FUNCTIONS ====================
+        // ==================== DATA RETRIEVAL LAYERS ====================
         async function loadDashboardStats() {
             try {
-                const [musicCount, moviesCount, blogCount, contactsCount, subscribersCount] = await Promise.all([
-                    supabase.from('music').select('*', { count: 'exact', head: true }),
-                    supabase.from('movies').select('*', { count: 'exact', head: true }),
+                const [musicCount, moviesCount, blogCount, contactsCount] = await Promise.all([
+                    supabase.from('music_profiles').select('*', { count: 'exact', head: true }),
+                    supabase.from('movies_pipeline').select('*', { count: 'exact', head: true }),
                     supabase.from('blog_posts').select('*', { count: 'exact', head: true }),
-                    supabase.from('contacts').select('*', { count: 'exact', head: true }),
-                    supabase.from('subscribers').select('*', { count: 'exact', head: true })
+                    supabase.from('contact_messages').select('*', { count: 'exact', head: true })
                 ]);
                 
                 document.getElementById('statsGrid').innerHTML = `
-                    <div class="stat-card" onclick="switchTab('music')"><div class="stat-card-info"><h3>${musicCount.count || 0}</h3><p>Audio Catalog</p></div><i class="fas fa-music"></i></div>
-                    <div class="stat-card" onclick="switchTab('movies')"><div class="stat-card-info"><h3>${moviesCount.count || 0}</h3><p>Film Archives</p></div><i class="fas fa-film"></i></div>
-                    <div class="stat-card" onclick="switchTab('blog')"><div class="stat-card-info"><h3>${blogCount.count || 0}</h3><p>Published Articles</p></div><i class="fas fa-blog"></i></div>
-                    <div class="stat-card" onclick="switchTab('contacts')"><div class="stat-card-info"><h3>${contactsCount.count || 0}</h3><p>Inquiries</p></div><i class="fas fa-envelope"></i></div>
-                    <div class="stat-card" onclick="switchTab('subscribers')"><div class="stat-card-info"><h3>${subscribersCount.count || 0}</h3><p>Subscribers</p></div><i class="fas fa-users"></i></div>
+                    <div class="stat-card" onclick="switchTab('music_profiles')"><div class="stat-card-info"><h3>${musicCount.count || 0}</h3><p>Audio Catalog</p></div><i class="fas fa-music"></i></div>
+                    <div class="stat-card" onclick="switchTab('movies_pipeline')"><div class="stat-card-info"><h3>${moviesCount.count || 0}</h3><p>Film Archives</p></div><i class="fas fa-film"></i></div>
+                    <div class="stat-card" onclick="switchTab('blog_posts')"><div class="stat-card-info"><h3>${blogCount.count || 0}</h3><p>Published Articles</p></div><i class="fas fa-blog"></i></div>
+                    <div class="stat-card" onclick="switchTab('contact_messages')"><div class="stat-card-info"><h3>${contactsCount.count || 0}</h3><p>Inquiries</p></div><i class="fas fa-envelope"></i></div>
                 `;
                 
-                const { data: recentContacts } = await supabase.from('contacts').select('*').order('created_at', { ascending: false }).limit(5);
+                const { data: recentContacts } = await supabase.from('contact_messages').select('*').order('created_at', { ascending: false }).limit(5);
                 
                 document.getElementById('recentContacts').innerHTML = `
                     <table>
@@ -727,104 +756,103 @@
                                 <tr>
                                     <td><strong>${escapeHtml(c.name)}</strong></td>
                                     <td>${escapeHtml(c.email)}</td>
-                                    <td><span style="color:rgba(255,255,255,0.65)">${escapeHtml(c.message?.substring(0, 50))}...</span></td>
+                                    <td><span style="color:rgba(255,255,255,0.65)">${escapeHtml(c.message?.substring(0, 60))}...</span></td>
                                 </tr>
                             `).join('') || '<tr><td colspan="3" style="text-align:center; padding:30px; color:rgba(255,255,255,0.3)">Inbox buffer clean. No telemetry documents detected.</td></tr>'}
                         </tbody>
                     </table>
                 `;
             } catch (error) {
-                document.getElementById('statsGrid').innerHTML = `<div style="color:#ff6b7a; padding:20px;"><i class="fa fa-exclamation-triangle"></i> Schema mismatch parsing core matrices: ${error.message}</div>`;
+                document.getElementById('statsGrid').innerHTML = `<div style="color:#ff6b7a; padding:20px;"><i class="fa fa-exclamation-triangle"></i> Schema error parsing matrices: ${error.message}</div>`;
             }
         }
         
         async function loadMusic() {
             try {
-                const { data } = await supabase.from('music').select('*').order('id', { ascending: false });
-                document.getElementById('musicTableBody').innerHTML = data?.map(item => `
-                    <tr>
-                        <td>#${item.id}</td>
-                        <td><strong>${escapeHtml(item.title)}</strong></td>
-                        <td>${escapeHtml(item.artist)}</td>
-                        <td><span style="background:rgba(255,255,255,0.06); padding:4px 10px; border-radius:6px; font-size:0.85rem;">${item.genre || '-'}</span></td>
-                        <td><i class="fa fa-play small text-warning"></i> ${item.play_count || 0}</td>
-                        <td>
-                            <button class="btn btn-sm btn-primary" onclick="editItem('music', ${item.id})"><i class="fa fa-edit"></i> Modify</button>
-                            <button class="btn btn-sm btn-danger" onclick="deleteItem('music', ${item.id})"><i class="fa fa-trash"></i> Drop</button>
-                        </td>
-                    </tr>
-                `).join('') || '<tr><td colspan="6" style="text-align:center; padding:20px;">No tracks found matching metrics.</td></tr>';
-            } catch(e) { document.getElementById('musicTableBody').innerHTML = `<tr><td colspan="6" style="color:#ff6b7a; padding:20px;">Schema error reading "music" table.</td></tr>`; }
+                const { data } = await supabase.from('music_profiles').select('*').order('created_at', { ascending: false });
+                document.getElementById('musicTableBody').innerHTML = data?.map(item => {
+                    const fallbackCover = 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=100';
+                    const cover = item.cover_image || item.artwork_url || fallbackCover;
+                    return `
+                        <tr>
+                            <td><img src="${cover}" class="table-thumb" onerror="this.src='${fallbackCover}'"></td>
+                            <td>
+                                <strong>${escapeHtml(item.title || item.track_title)}</strong>
+                                ${item.explicit ? '<span class="badge badge-explicit">E</span>' : ''}
+                                ${item.featured ? '<span class="badge badge-featured">Featured</span>' : ''}
+                            </td>
+                            <td>${escapeHtml(item.artist)}</td>
+                            <td><span style="background:rgba(255,255,255,0.06); padding:4px 10px; border-radius:6px; font-size:0.85rem;">${item.genre || 'Boom Bap'}</span></td>
+                            <td>
+                                <div style="font-size:0.8rem; color:rgba(255,255,255,0.6);">
+                                    <i class="fa fa-play text-warning"></i> ${item.play_count || 0} <br>
+                                    <i class="fa fa-download text-info"></i> ${item.download_count || 0}
+                                </div>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-primary" onclick="editItem('music_profiles', '${item.id}')"><i class="fa fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteItem('music_profiles', '${item.id}')"><i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('') || '<tr><td colspan="6" style="text-align:center; padding:20px;">No tracks found matching metrics.</td></tr>';
+            } catch(e) { document.getElementById('musicTableBody').innerHTML = `<tr><td colspan="6" style="color:#ff6b7a; padding:20px;">Schema error reading table.</td></tr>`; }
         }
         
         async function loadMovies() {
             try {
-                const { data } = await supabase.from('movies').select('*').order('id', { ascending: false });
-                document.getElementById('moviesTableBody').innerHTML = data?.map(item => `
-                    <tr>
-                        <td>#${item.id}</td>
-                        <td><strong>${escapeHtml(item.title)}</strong></td>
-                        <td>${item.genre || '-'}</td>
-                        <td><span class="text-warning">${item.year || '-'}</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-primary" onclick="editItem('movies', ${item.id})"><i class="fa fa-edit"></i> Modify</button>
-                            <button class="btn btn-sm btn-danger" onclick="deleteItem('movies', ${item.id})"><i class="fa fa-trash"></i> Drop</button>
-                        </td>
-                    </tr>
-                `).join('') || '<tr><td colspan="5" style="text-align:center; padding:20px;">No cinematic arrays verified.</td></tr>';
-            } catch(e) { document.getElementById('moviesTableBody').innerHTML = `<tr><td colspan="5" style="color:#ff6b7a; padding:20px;">Schema error reading "movies" table.</td></tr>`; }
+                const { data } = await supabase.from('movies_pipeline').select('*').order('created_at', { ascending: false });
+                document.getElementById('moviesTableBody').innerHTML = data?.map(item => {
+                    const fallbackThumb = 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=100';
+                    return `
+                        <tr>
+                            <td><img src="${item.thumbnail_url || item.cover_image || fallbackThumb}" class="table-thumb" onerror="this.src='${fallbackThumb}'"></td>
+                            <td><strong>${escapeHtml(item.title)}</strong></td>
+                            <td>${escapeHtml(item.category || item.genre || '-')}</td>
+                            <td><span class="text-warning">${item.year || '-'}</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-primary" onclick="editItem('movies_pipeline', '${item.id}')"><i class="fa fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteItem('movies_pipeline', '${item.id}')"><i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('') || '<tr><td colspan="5" style="text-align:center; padding:20px;">No cinematic arrays verified.</td></tr>';
+            } catch(e) { document.getElementById('moviesTableBody').innerHTML = `<tr><td colspan="5" style="color:#ff6b7a; padding:20px;">Schema error reading table.</td></tr>`; }
         }
         
         async function loadBlog() {
             try {
-                // FIXED: Standardizing on target master key "blog_posts" table schema consistently
-                const { data } = await supabase.from('blog_posts').select('*').order('id', { ascending: false });
+                const { data } = await supabase.from('blog_posts').select('*').order('created_at', { ascending: false });
                 document.getElementById('blogTableBody').innerHTML = data?.map(item => `
                     <tr>
-                        <td>#${item.id}</td>
                         <td><strong>${escapeHtml(item.title)}</strong></td>
-                        <td>${item.category || '-'}</td>
-                        <td>${item.published ? '<span style="color:#4CAF50;"><i class="fa fa-circle"></i> Active Stream</span>' : '<span style="color:rgba(255,255,255,0.3);"><i class="fa fa-circle"></i> Staged Sandbox</span>'}</td>
+                        <td>${escapeHtml(item.category || '-')}</td>
+                        <td><span class="badge" style="background:rgba(255,215,120,0.15); color:#FFD778;">${escapeHtml(item.badge_label || 'UPDATE')}</span></td>
+                        <td style="font-size:0.85rem; color:rgba(255,255,255,0.5);">${new Date(item.created_at).toLocaleDateString()}</td>
                         <td>
-                            <button class="btn btn-sm btn-primary" onclick="editItem('blog_posts', ${item.id})"><i class="fa fa-edit"></i> Modify</button>
-                            <button class="btn btn-sm btn-danger" onclick="deleteItem('blog_posts', ${item.id})"><i class="fa fa-trash"></i> Drop</button>
+                            <button class="btn btn-sm btn-primary" onclick="editItem('blog_posts', '${item.id}')"><i class="fa fa-edit"></i></button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteItem('blog_posts', '${item.id}')"><i class="fa fa-trash"></i></button>
                         </td>
                     </tr>
                 `).join('') || '<tr><td colspan="5" style="text-align:center; padding:20px;">No editorial entries detected.</td></tr>';
-            } catch(e) { document.getElementById('blogTableBody').innerHTML = `<tr><td colspan="5" style="color:#ff6b7a; padding:20px;">Schema error reading "blog_posts" table.</td></tr>`; }
+            } catch(e) { document.getElementById('blogTableBody').innerHTML = `<tr><td colspan="5" style="color:#ff6b7a; padding:20px;">Schema error reading table.</td></tr>`; }
         }
         
         async function loadContacts() {
             try {
-                const { data } = await supabase.from('contacts').select('*').order('created_at', { ascending: false });
+                const { data } = await supabase.from('contact_messages').select('*').order('created_at', { ascending: false });
                 document.getElementById('contactsTableBody').innerHTML = data?.map(item => `
                     <tr>
-                        <td>#${item.id}</td>
                         <td><strong>${escapeHtml(item.name)}</strong></td>
                         <td>${escapeHtml(item.email)}</td>
                         <td><span style="font-size:0.9rem; color:rgba(255,255,255,0.7);">${escapeHtml(item.message)}</span></td>
-                        <td><span style="background:${item.status === 'unread' ? 'rgba(220,53,69,0.2)' : 'rgba(40,167,69,0.2)'}; color:${item.status === 'unread' ? '#ff6b7a' : '#5cd67b'}; padding:4px 10px; border-radius:12px; font-size:0.8rem; font-weight:700;">${item.status}</span></td>
+                        <td style="font-size:0.85rem; color:rgba(255,255,255,0.5);">${new Date(item.created_at).toLocaleDateString()}</td>
                         <td>
-                            <button class="btn btn-sm" onclick="markContactRead(${item.id})"><i class="fa fa-check"></i> Clear</button>
-                            <button class="btn btn-sm btn-danger" onclick="deleteItem('contacts', ${item.id})"><i class="fa fa-trash"></i> Drop</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteItem('contact_messages', '${item.id}')"><i class="fa fa-trash"></i> Drop</button>
                         </td>
                     </tr>
-                `).join('') || '<tr><td colspan="6" style="text-align:center; padding:20px;">No telemetry messages in buffer log.</td></tr>';
-            } catch(e) { document.getElementById('contactsTableBody').innerHTML = `<tr><td colspan="6" style="color:#ff6b7a; padding:20px;">Schema error reading "contacts" table.</td></tr>`; }
-        }
-        
-        async function loadSubscribers() {
-            try {
-                const { data } = await supabase.from('subscribers').select('*').order('subscribed_at', { ascending: false });
-                document.getElementById('subscribersTableBody').innerHTML = data?.map(item => `
-                    <tr>
-                        <td>#${item.id}</td>
-                        <td><strong>${escapeHtml(item.email)}</strong></td>
-                        <td><i class="fa fa-calendar-alt small opacity-50"></i> ${new Date(item.subscribed_at || item.created_at).toLocaleDateString()}</td>
-                        <td><button class="btn btn-sm btn-danger" onclick="deleteItem('subscribers', ${item.id})"><i class="fa fa-trash"></i> Evict</button></td>
-                    </tr>
-                `).join('') || '<tr><td colspan="4" style="text-align:center; padding:20px;">Subscribers array empty.</td></tr>';
-            } catch(e) { document.getElementById('subscribersTableBody').innerHTML = `<tr><td colspan="4" style="color:#ff6b7a; padding:20px;">Schema error reading "subscribers" table.</td></tr>`; }
+                `).join('') || '<tr><td colspan="5" style="text-align:center; padding:20px;">No messages in log buffer.</td></tr>';
+            } catch(e) { document.getElementById('contactsTableBody').innerHTML = `<tr><td colspan="5" style="color:#ff6b7a; padding:20px;">Schema error reading table.</td></tr>`; }
         }
         
         function switchTab(tab) {
@@ -832,131 +860,232 @@
             if(tabButton) tabButton.click();
         }
         
-        // ==================== CRUD OPERATION LAYERS ====================
+        // ==================== CRUD OPERATIONS MODAL LAYER ====================
         function openAddModal(table) {
             currentTable = table;
             editingItem = null;
-            document.getElementById('modalTitle').innerText = `Catalog Entry Pipeline [Table: ${table}]`;
-            
-            let formHtml = '';
-            if (table === 'music') {
-                formHtml = `
-                    <label>Track Name *</label><input type="text" id="title" required>
-                    <label>Lead Performing Artist *</label><input type="text" id="artist" required>
-                    <label>Sonic Genre Profile</label><input type="text" id="genre" placeholder="e.g. Afrobeats, Hip-Hop">
-                    <label>Structural Sub-Category</label><input type="text" id="category">
-                    <label>Production Year Calendar</label><input type="number" id="year" value="2026">
-                    <label>Digital Audio File Stream URL *</label><input type="url" id="file_url" required>
-                    <label>High Definition Artwork Cover URL</label><input type="url" id="cover_image">
-                    <label>Release Notes Log Summary</label><textarea id="description" rows="3"></textarea>
-                    <label>Geographic Origin Vector</label><select id="country"><option value="Ghana">Ghana</option><option value="Nigeria">Nigeria</option></select>
-                `;
-            } else if (table === 'movies') {
-                formHtml = `
-                    <label>Cinematic Project Title *</label><input type="text" id="title" required>
-                    <label>Media Core Genre</label><input type="text" id="genre">
-                    <label>Structural Segment Category</label><input type="text" id="category">
-                    <label>Distribution Matrix Year</label><input type="number" id="year" value="2026">
-                    <label>Regulatory System Rating</label><input type="text" id="rating" placeholder="PG-13, R, General">
-                    <label>Stream Runtime Duration</label><input type="text" id="duration" placeholder="e.g. 2h 15min">
-                    <label>Plot Synthesis Document</label><textarea id="description" rows="3"></textarea>
-                    <label>High Definition Promotional Cover URL</label><input type="url" id="cover_image">
-                    <label>Digital Trailer Stream Web URL</label><input type="url" id="trailer_url">
-                `;
-            } else if (table === 'blog_posts') {
-                formHtml = `
-                    <label>Document Title Head *</label><input type="text" id="title" required>
-                    <label>System Router URL Slug</label><input type="text" id="slug" placeholder="auto-generated-if-blank">
-                    <label>Article Document Content Data Body *</label><textarea id="content" rows="6" required></textarea>
-                    <label>Structural Group Category</label><input type="text" id="category">
-                    <label>Banner Image Asset Gateway URL</label><input type="url" id="cover_image">
-                    <label style="display:flex; align-items:center; gap:10px; margin-top:15px; cursor:pointer;">
-                        <input type="checkbox" id="published" style="width:auto; margin:0;"> Broadcast immediately to master live nodes
-                    </label>
-                `;
-            }
-            
-            document.getElementById('modalForm').innerHTML = formHtml;
+            document.getElementById('modalTitle').innerText = `Provision New System Record [Table: ${table}]`;
+            document.getElementById('modalForm').innerHTML = generateFormFields(table, {});
             document.getElementById('itemModal').style.display = 'flex';
         }
         
         async function editItem(table, id) {
             currentTable = table;
             editingItem = id;
-            document.getElementById('modalTitle').innerText = `Modify Existing Node Data Matrix [ID: #${id}]`;
+            document.getElementById('modalTitle').innerText = `Modify Node Record Data [ID: #${id.substring(0,8)}]`;
             
             try {
                 const { data, error } = await supabase.from(table).select('*').eq('id', id).single();
                 if (error) throw error;
                 
-                let formHtml = '';
-                if (table === 'music') {
-                    formHtml = `
-                        <label>Track Name *</label><input type="text" id="title" value="${escapeHtml(data.title || '')}" required>
-                        <label>Lead Performing Artist *</label><input type="text" id="artist" value="${escapeHtml(data.artist || '')}" required>
-                        <label>Sonic Genre Profile</label><input type="text" id="genre" value="${escapeHtml(data.genre || '')}">
-                        <label>Structural Sub-Category</label><input type="text" id="category" value="${escapeHtml(data.category || '')}">
-                        <label>Production Year Calendar</label><input type="number" id="year" value="${data.year || ''}">
-                        <label>Digital Audio File Stream URL *</label><input type="url" id="file_url" value="${data.file_url || ''}" required>
-                        <label>High Definition Artwork Cover URL</label><input type="url" id="cover_image" value="${data.cover_image || ''}">
-                        <label>Release Notes Log Summary</label><textarea id="description" rows="3">${escapeHtml(data.description || '')}</textarea>
-                        <label>Geographic Origin Vector</label><select id="country"><option value="Ghana" ${data.country === 'Ghana' ? 'selected' : ''}>Ghana</option><option value="Nigeria" ${data.country === 'Nigeria' ? 'selected' : ''}>Nigeria</option></select>
-                    `;
-                } else if (table === 'movies') {
-                    formHtml = `
-                        <label>Cinematic Project Title *</label><input type="text" id="title" value="${escapeHtml(data.title || '')}" required>
-                        <label>Media Core Genre</label><input type="text" id="genre" value="${escapeHtml(data.genre || '')}">
-                        <label>Structural Segment Category</label><input type="text" id="category" value="${escapeHtml(data.category || '')}">
-                        <label>Distribution Matrix Year</label><input type="number" id="year" value="${data.year || ''}">
-                        <label>Regulatory System Rating</label><input type="text" id="rating" value="${escapeHtml(data.rating || '')}">
-                        <label>Stream Runtime Duration</label><input type="text" id="duration" value="${escapeHtml(data.duration || '')}">
-                        <label>Plot Synthesis Document</label><textarea id="description" rows="3">${escapeHtml(data.description || '')}</textarea>
-                        <label>High Definition Promotional Cover URL</label><input type="url" id="cover_image" value="${data.cover_image || ''}">
-                        <label>Digital Trailer Stream Web URL</label><input type="url" id="trailer_url" value="${data.trailer_url || ''}">
-                    `;
-                } else if (table === 'blog_posts') {
-                    formHtml = `
-                        <label>Document Title Head *</label><input type="text" id="title" value="${escapeHtml(data.title || '')}" required>
-                        <label>System Router URL Slug</label><input type="text" id="slug" value="${escapeHtml(data.slug || '')}">
-                        <label>Article Document Content Data Body *</label><textarea id="content" rows="6" required>${escapeHtml(data.content || '')}</textarea>
-                        <label>Structural Group Category</label><input type="text" id="category" value="${escapeHtml(data.category || '')}">
-                        <label>Banner Image Asset Gateway URL</label><input type="url" id="cover_image" value="${data.cover_image || ''}">
-                        <label style="display:flex; align-items:center; gap:10px; margin-top:15px; cursor:pointer;">
-                            <input type="checkbox" id="published" ${data.published ? 'checked' : ''} style="width:auto; margin:0;"> Broadcast immediately to master live nodes
-                        </label>
-                    `;
-                }
-                
-                document.getElementById('modalForm').innerHTML = formHtml;
+                document.getElementById('modalForm').innerHTML = generateFormFields(table, data);
                 document.getElementById('itemModal').style.display = 'flex';
             } catch(error) {
                 showNotification('Could not resolve data nodes: ' + error.message, 'error');
             }
         }
+
+        // ==================== DYNAMIC FORM COMPILATION ENGINE ====================
+        function generateFormFields(table, data) {
+            if (table === 'music_profiles') {
+                return `
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>Track Title *</label>
+                            <input type="text" id="title" value="${escapeHtml(data.title || data.track_title || '')}" required placeholder="e.g., Street Habits">
+                        </div>
+                        <div class="form-col">
+                            <label>Full Title Override (Display Context)</label>
+                            <input type="text" id="full_title" value="${escapeHtml(data.full_title || '')}" placeholder="e.g., Street Habits Ft. Daatey & MoneyDey">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>Primary Performing Artist *</label>
+                            <input type="text" id="artist" value="${escapeHtml(data.artist || '')}" required placeholder="e.g., Ricch Kid">
+                        </div>
+                        <div class="form-col">
+                            <label>Sonic Genre Profile</label>
+                            <input type="text" id="genre" value="${escapeHtml(data.genre || 'Afro-pop')}" placeholder="e.g., Boom Bap, Conscious Hip Hop">
+                        </div>
+                        <div class="form-col">
+                            <label>Sub-Category</label>
+                            <input type="text" id="category" value="${escapeHtml(data.category || 'Afrobeat')}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>Release Calendar Year</label>
+                            <input type="number" id="year" value="${data.year || 2026}">
+                        </div>
+                        <div class="form-col">
+                            <label>Geographic Country Origin</label>
+                            <input type="text" id="country" value="${escapeHtml(data.country || 'Ghana')}">
+                        </div>
+                        <div class="form-col">
+                            <label>Release Date</label>
+                            <input type="date" id="release_date" value="${data.release_date || ''}">
+                        </div>
+                    </div>
+                    
+                    <label>Audio Distribution Streaming URL (audio_url) *</label>
+                    <input type="url" id="audio_url" value="${data.audio_url || ''}" required placeholder="https://supabase.co/.../track.mp3">
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>Storage Mirror Link (file_url)</label>
+                            <input type="url" id="file_url" value="${data.file_url || ''}" placeholder="Leaves empty to sync with audio_url">
+                        </div>
+                        <div class="form-col">
+                            <label>Download Gate Route (download_url)</label>
+                            <input type="url" id="download_url" value="${data.download_url || ''}" placeholder="Leaves empty to sync with audio_url">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>High-Res Cover Image Link</label>
+                            <input type="url" id="cover_image" value="${data.cover_image || data.artwork_url || ''}">
+                        </div>
+                        <div class="form-col">
+                            <label>Artwork Thumbnail URL</label>
+                            <input type="url" id="cover_thumb" value="${data.cover_thumb || ''}">
+                        </div>
+                        <div class="form-col">
+                            <label>Artist Avatar Image URL</label>
+                            <input type="url" id="artist_image" value="${data.artist_image || ''}">
+                        </div>
+                    </div>
+                    
+                    <div class="flag-group">
+                        <div class="flag-item">
+                            <span class="small text-white">Featured Showcase (Inject into landing layouts)</span>
+                            <input type="checkbox" id="featured" ${data.featured !== false ? 'checked' : ''}>
+                        </div>
+                        <div class="flag-item">
+                            <span class="small text-white">Trending Array (Elevate velocity sorting indexes)</span>
+                            <input type="checkbox" id="trending" ${data.trending !== false ? 'checked' : ''}>
+                        </div>
+                        <div class="flag-item">
+                            <span class="small text-white">Explicit Warning Content Flag</span>
+                            <input type="checkbox" id="explicit" ${data.explicit ? 'checked' : ''}>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>Producer Credits</label>
+                            <input type="text" id="producer" value="${escapeHtml(data.producer || '')}">
+                        </div>
+                        <div class="form-col">
+                            <label>Publishing Label</label>
+                            <input type="text" id="label" value="${escapeHtml(data.label || '')}">
+                        </div>
+                        <div class="form-col">
+                            <label>Duration</label>
+                            <input type="text" id="duration" value="${escapeHtml(data.duration || '')}" placeholder="e.g., 3:42">
+                        </div>
+                        <div class="form-col">
+                            <label>Bitrate (kbps)</label>
+                            <input type="number" id="bitrate" value="${data.bitrate || 320}">
+                        </div>
+                        <div class="form-col">
+                            <label>File Size</label>
+                            <input type="text" id="file_size" value="${escapeHtml(data.file_size || '')}" placeholder="e.g., 8.4 MB">
+                        </div>
+                    </div>
+                    
+                    <label>Search Metadata Tag Sequences (Comma separated)</label>
+                    <input type="text" id="tags" value="${escapeHtml(data.tags || '')}" placeholder="e.g., riches, rap, ghana">
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>Track Liner Notes / Description</label>
+                            <textarea id="description" rows="3">${escapeHtml(data.description || '')}</textarea>
+                        </div>
+                        <div class="form-col">
+                            <label>Song Lyric Layouts (Preserves Linebreaks)</label>
+                            <textarea id="lyrics" rows="3">${escapeHtml(data.lyrics || '')}</textarea>
+                        </div>
+                    </div>
+                `;
+            } else if (table === 'movies_pipeline') {
+                return `
+                    <label>Cinematic Project Title *</label>
+                    <input type="text" id="title" value="${escapeHtml(data.title || '')}" required>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>Core Segment Category *</label>
+                            <input type="text" id="category" value="${escapeHtml(data.category || '')}" required placeholder="e.g., Action, Documentary">
+                        </div>
+                        <div class="form-col">
+                            <label>Distribution Matrix Year</label>
+                            <input type="number" id="year" value="${data.year || 2026}">
+                        </div>
+                    </div>
+                    <label>Digital Film Stream Video URL *</label>
+                    <input type="url" id="video_url" value="${data.video_url || ''}" required>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>Promotional Thumbnail Asset URL</label>
+                            <input type="url" id="thumbnail_url" value="${data.thumbnail_url || ''}">
+                        </div>
+                        <div class="form-col">
+                            <label>High-Res Cover Artwork URL</label>
+                            <input type="url" id="cover_image" value="${data.cover_image || ''}">
+                        </div>
+                    </div>
+                    <label>Plot Synthesis / Description Summary Document</label>
+                    <textarea id="description" rows="4">${escapeHtml(data.description || '')}</textarea>
+                `;
+            } else if (table === 'blog_posts') {
+                return `
+                    <label>Document Title Head *</label>
+                    <input type="text" id="title" value="${escapeHtml(data.title || '')}" required>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>Structural Group Category</label>
+                            <input type="text" id="category" value="${escapeHtml(data.category || 'Music News')}">
+                        </div>
+                        <div class="form-col">
+                            <label>Context Badge Label</label>
+                            <input type="text" id="badge_label" value="${escapeHtml(data.badge_label || 'UPDATE')}">
+                        </div>
+                    </div>
+                    <label>Banner Image Asset Gateway URL</label>
+                    <input type="url" id="image_url" value="${data.image_url || ''}">
+                    <label>Article Document Content Data Body *</label>
+                    <textarea id="content" rows="8" required placeholder="Write markdown or HTML text assets here...">${escapeHtml(data.content || '')}</textarea>
+                `;
+            }
+        }
         
-        async function saveItem() {
+        async function saveItem(event) {
+            event.preventDefault();
+            
             const formData = {};
             const inputs = document.querySelectorAll('#modalForm input, #modalForm textarea, #modalForm select');
             
-            let verificationCheckPassed = true;
             inputs.forEach(input => {
-                if (input.hasAttribute('required') && !input.value.trim()) {
-                    verificationCheckPassed = false;
-                }
                 if (input.type === 'checkbox') {
                     formData[input.id] = input.checked;
                 } else {
-                    formData[input.id] = input.value.trim() ? input.value.trim() : null;
+                    let val = input.value.trim();
+                    if (input.type === 'number') {
+                        formData[input.id] = val ? parseInt(val) : null;
+                    } else {
+                        formData[input.id] = val ? val : null;
+                    }
                 }
             });
             
-            if(!verificationCheckPassed) {
-                showNotification('Please fill in all mandatory data fields', 'error');
-                return;
-            }
-
-            if(currentTable === 'blog_posts' && !formData['slug'] && formData['title']) {
-                formData['slug'] = formData['title'].toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            // Legacy/Schema adjustments for fields mapping validation rules securely
+            if (currentTable === 'music_profiles') {
+                // Ensure legacy structural code fields fallback seamlessly
+                if (!formData['track_title']) formData['track_title'] = formData['title'];
+                if (!formData['file_url']) formData['file_url'] = formData['audio_url'];
+                if (!formData['download_url']) formData['download_url'] = formData['audio_url'];
+                if (!formData['artwork_url']) formData['artwork_url'] = formData['cover_image'];
             }
             
             try {
@@ -971,8 +1100,8 @@
                 }
                 closeModal();
                 
-                if (currentTable === 'music') loadMusic();
-                else if (currentTable === 'movies') loadMovies();
+                if (currentTable === 'music_profiles') loadMusic();
+                else if (currentTable === 'movies_pipeline') loadMovies();
                 else if (currentTable === 'blog_posts') loadBlog();
                 loadDashboardStats();
             } catch (error) {
@@ -981,16 +1110,15 @@
         }
         
         async function deleteItem(table, id) {
-            if (confirm('Execute permanent drop script on this structural entity row?')) {
+            if (confirm('Execute permanent drop script on this structural row entity?')) {
                 try {
                     const { error } = await supabase.from(table).delete().eq('id', id);
                     if(error) throw error;
                     showNotification('Entity purged from system tables', 'success');
-                    if (table === 'music') loadMusic();
-                    else if (table === 'movies') loadMovies();
+                    if (table === 'music_profiles') loadMusic();
+                    else if (table === 'movies_pipeline') loadMovies();
                     else if (table === 'blog_posts') loadBlog();
-                    else if (table === 'contacts') loadContacts();
-                    else if (table === 'subscribers') loadSubscribers();
+                    else if (table === 'contact_messages') loadContacts();
                     loadDashboardStats();
                 } catch(error) {
                     showNotification('Drop command error: ' + error.message, 'error');
@@ -998,20 +1126,11 @@
             }
         }
         
-        async function markContactRead(id) {
-            try {
-                const { error } = await supabase.from('contacts').update({ status: 'read' }).eq('id', id);
-                if(error) throw error;
-                loadContacts();
-                showNotification('Telemetry item cleared', 'success');
-            } catch(err) { showNotification(err.message, 'error'); }
-        }
-        
         function closeModal() {
             document.getElementById('itemModal').style.display = 'none';
         }
         
-        // ==================== INJECTION & SAMPLE SEED RECOVERY ENGINE ====================
+        // ==================== INJECTION LAYER BACKUP ENGINE ====================
         async function importJSON() {
             const fileInput = document.getElementById('jsonFile');
             const importType = document.getElementById('importType').value;
@@ -1029,16 +1148,15 @@
                     
                     let importedSuccessfulCount = 0;
                     for (const item of items) {
-                        // Stripping primary system auto-incrementing identity keys safely if needed
-                        if(item.id) delete item.id;
+                        if(item.id) delete item.id; // Strip primary server auto-identity safely
                         const { error } = await supabase.from(importType).insert([item]);
                         if(!error) importedSuccessfulCount++;
                     }
                     
-                    showNotification(`Sync phase execution completed [${importedSuccessfulCount}/${items.length} Elements Linked]`, 'success');
+                    showNotification(`Sync phase completed [${importedSuccessfulCount}/${items.length} Elements Linked]`, 'success');
                     
-                    if (importType === 'music') loadMusic();
-                    else if (importType === 'movies') loadMovies();
+                    if (importType === 'music_profiles') loadMusic();
+                    else if (importType === 'movies_pipeline') loadMovies();
                     else loadBlog();
                     loadDashboardStats();
                 } catch (error) {
@@ -1046,27 +1164,6 @@
                 }
             };
             reader.readAsText(fileInput.files[0]);
-        }
-        
-        async function loadSampleData() {
-            const sampleMusic = [
-                { title: "Jejereje", artist: "Stonebwoy", genre: "Afrobeats", file_url: "https://example.com/stream1.mp3", country: "Ghana", year: 2026 },
-                { title: "On The Low", artist: "Burna Boy", genre: "Afrobeats", file_url: "https://example.com/stream2.mp3", country: "Nigeria", year: 2025 },
-                { title: "Kante", artist: "Shatta Wale", genre: "Dancehall", file_url: "https://example.com/stream3.mp3", country: "Ghana", year: 2026 }
-            ];
-            
-            try {
-                let loadSuccessCount = 0;
-                for (const item of sampleMusic) {
-                    const { error } = await supabase.from('music').insert([item]);
-                    if(!error) loadSuccessCount++;
-                }
-                loadMusic();
-                loadDashboardStats();
-                showNotification(`${loadSuccessCount} Blueprint data configurations deployed successfully`, 'success');
-            } catch(err) {
-                showNotification('Seed failure execution error', 'error');
-            }
         }
         
         function escapeHtml(str) {
