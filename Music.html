@@ -3,136 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RICHES-BLOG MUSIC</title>
+    <title>RICHES BOSSES | Sonic Hub</title>
     <link rel="icon" type="image/x-icon" href="favicon.jpg">
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4/dist/umd/supabase.js"></script>
 
     <style>
-        /* Base Liquid-Glass Background Styling */
+        /* Deep Cosmic Glass Base Layer Architecture */
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%) no-repeat center center fixed;
+            background: linear-gradient(135deg, #050714 0%, #0a0d22 50%, #120f35 100%) no-repeat center center fixed;
             background-size: cover;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #f3f4f6;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             overflow-x: hidden;
             min-height: 100vh;
         }
 
-        /* Glassmorphism Panels */
+        /* Glassmorphic Panel Foundations */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(16px) saturate(140%);
-            -webkit-backdrop-filter: blur(16px) saturate(140%);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px) saturate(140%);
+            -webkit-backdrop-filter: blur(20px) saturate(140%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Liquid Glass Interaction */
+        /* Interactive Liquid Category Pills */
         .liquid-pill {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(8px);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             text-decoration: none;
+            cursor: pointer;
         }
 
-        .liquid-pill:hover {
-            background: rgba(255, 255, 255, 0.18);
-            border-color: rgba(255, 255, 255, 0.4);
-            color: #ffffff;
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+        .liquid-pill:hover, .liquid-pill.active {
+            background: rgba(255, 179, 71, 0.1);
+            border-color: rgba(255, 215, 120, 0.4);
+            color: #FFD778;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 179, 71, 0.15);
         }
 
-        /* Navigation Linking Aesthetics */
+        /* Text Accents & Typography */
+        .text-gold {
+            color: #FFD778 !important;
+            text-shadow: 0 0 12px rgba(255, 215, 120, 0.15);
+        }
+
         .nav-link {
-            color: rgba(255, 255, 255, 0.75) !important;
-            transition: color 0.3s, text-shadow 0.3s;
-        }
-        .nav-link:hover, .nav-link.active {
-            color: #ffffff !important;
-            text-shadow: 0 0 8px rgba(255,255,255,0.6);
+            color: rgba(255, 255, 255, 0.65) !important;
+            font-weight: 500;
+            padding: 10px 16px !important;
+            transition: all 0.3s ease;
         }
 
-        /* Media Custom Elements */
+        .nav-link:hover, .nav-link.active {
+            color: #FFD778 !important;
+            text-shadow: 0 0 10px rgba(255, 215, 120, 0.3);
+        }
+
+        /* Modern Media Player Layout Customizations */
         .music-cover-wrapper {
             position: relative;
-            width: 140px;
-            height: 140px;
+            width: 160px;
+            height: 160px;
             overflow: hidden;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            border-radius: 18px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .music-cover-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .glass-player-card:hover .music-cover-wrapper img {
-            transform: scale(1.06);
+            transform: scale(1.08);
         }
 
-        /* Fluid Audio Scrub Bar */
+        /* Fluid Audio Scrub Bar Layout */
         .progress-container {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             height: 6px;
-            border-radius: 4px;
+            border-radius: 10px;
             cursor: pointer;
             position: relative;
+            transition: height 0.2s ease;
+        }
+        
+        .progress-container:hover {
+            height: 8px;
         }
 
         .progress-bar-filled {
-            background: linear-gradient(90deg, #38bdf8, #c084fc);
+            background: linear-gradient(90deg, #FFB347, #FFCC67);
             height: 100%;
             width: 0%;
-            border-radius: 4px;
+            border-radius: 10px;
             position: relative;
             transition: width 0.1s linear;
-            pointer-events: none; /* Prevents visual glitches when clicking near the edge */
+            pointer-events: none;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #FFB347 0%, #FFCC67 100%);
+            border: none;
+            color: #050714 !important;
+            font-weight: 700;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 179, 71, 0.35);
         }
 
         /* Utilities */
         .social-links a {
-            color: rgba(255, 255, 255, 0.75);
-            font-size: 1.3rem;
-            transition: transform 0.3s, color 0.3s;
-            display: inline-block;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
         }
+
         .social-links a:hover {
-            color: #ffffff;
-            transform: scale(1.2);
+            color: #050714;
+            background: #FFB347;
+            transform: scale(1.1);
+        }
+
+        .spinner {
+            animation: spin 1s linear infinite;
+            color: #FFB347;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .queue-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        .queue-item:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,179,71,0.2);
         }
     </style>
 </head>
 <body>
 
     <header class="mb-4">
-        <nav class="navbar navbar-expand-lg glass-panel mt-3 mx-2 mx-md-4 px-3">
+        <nav class="navbar navbar-expand-lg glass-panel mt-3 mx-2 mx-md-4 px-3 py-3">
             <div class="container-fluid">
-                <a class="navbar-brand text-white fw-bold d-flex align-items-center" href="index.html">
-                    RICHES-BLOG
+                <a class="navbar-brand text-white fw-bold d-flex align-items-center gap-2" href="index.html">
+                    <span style="letter-spacing: 0.5px;">RICHES <span class="text-gold">BOSSES</span></span>
                 </a>
                 
                 <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#musicNavbar" aria-controls="musicNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="bi bi-list fs-2 text-white"></span>
+                    <span class="bi bi-list fs-1 text-white"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="musicNavbar">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
-                        <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-door-fill me-1"></i>Home</a></li>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1">
+                        <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
                         <li class="nav-item"><a class="nav-link active" href="Music.html"><i class="bi bi-music-note-beamed me-1"></i>Music</a></li>
                         <li class="nav-item"><a class="nav-link" href="video.html"><i class="bi bi-film me-1"></i>Movies</a></li>
-                        <li class="nav-item"><a class="nav-link" href="story.html"><i class="bi bi-pen-fill me-1"></i>Stories</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.html"><i class="bi bi-person-fill me-1"></i>About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.html"><i class="bi bi-envelope-fill me-1"></i>Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="story.html"><i class="bi bi-pen me-1"></i>Stories</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.html"><i class="bi bi-info-circle me-1"></i>About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.html"><i class="bi bi-envelope me-1"></i>Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -141,39 +199,122 @@
 
     <main class="container my-5">
         
-        <section class="glass-panel p-4 mb-5 shadow-lg">
-            <h2 class="h4 mb-4 text-white d-flex align-items-center">
-                <i class="bi bi-tags-fill me-2 text-info"></i> Music Categories
+        <section class="glass-panel p-4 mb-5 shadow-lg" data-aos="fade-up">
+            <h2 class="h5 mb-4 text-white fw-bold d-flex align-items-center gap-2">
+                <i class="bi bi-tags text-gold"></i> Dynamic Catalog Filters
             </h2>
-            <div class="d-flex flex-wrap gap-2">
-                <a href="#" class="btn btn-sm rounded-pill liquid-pill px-4 py-2">International Music</a>
-                <a href="#" class="btn btn-sm rounded-pill liquid-pill px-4 py-2">Naija Music</a>
-                <a href="#" class="btn btn-sm rounded-pill liquid-pill px-4 py-2">Ghana Music</a>
-                <a href="#" class="btn btn-sm rounded-pill liquid-pill px-4 py-2">Trending Music</a>
-                <a href="#" class="btn btn-sm rounded-pill liquid-pill px-4 py-2">New Releases</a>
-                <a href="#" class="btn btn-sm rounded-pill liquid-pill px-4 py-2">Afrobeats</a>
-                <a href="#" class="btn btn-sm rounded-pill liquid-pill px-4 py-2">Hip-Hop/Rap</a>
-                <a href="#" class="btn btn-sm rounded-pill liquid-pill px-4 py-2">R&B/Soul</a>
-                <a href="#" class="btn btn-sm rounded-pill liquid-pill px-4 py-2">Electronic/Dance</a>
+            <div class="d-flex flex-wrap gap-2" id="categoryCapsuleGrid">
+                <div class="btn btn-sm rounded-pill liquid-pill px-4 py-2 active" onclick="filterCategory('All')">All Tracks</div>
+                <div class="btn btn-sm rounded-pill liquid-pill px-4 py-2" onclick="filterCategory('International')">International</div>
+                <div class="btn btn-sm rounded-pill liquid-pill px-4 py-2" onclick="filterCategory('Ghana')">Ghana Music</div>
+                <div class="btn btn-sm rounded-pill liquid-pill px-4 py-2" onclick="filterCategory('Naija')">Naija Wave</div>
+                <div class="btn btn-sm rounded-pill liquid-pill px-4 py-2" onclick="filterCategory('Hip-Hop')">Hip-Hop / Rap</div>
+                <div class="btn btn-sm rounded-pill liquid-pill px-4 py-2" onclick="filterCategory('Afrobeats')">Afrobeats</div>
             </div>
         </section>
 
-        <section class="mx-auto" style="max-width: 650px;">
-            <h1 class="h3 mb-4 fw-bold text-center tracking-wide text-uppercase">Now Playing</h1>
+        <section class="mx-auto mb-5" style="max-width: 700px;" data-aos="zoom-in">
+            <h1 class="h5 mb-3 fw-bold tracking-wide text-uppercase text-center text-gold"><i class="bi bi-soundwave"></i> Deck Interface Node</h1>
 
-            <div class="glass-panel glass-player-card p-4 shadow-lg d-flex flex-column flex-md-row align-items-center gap-4">
+            <div class="glass-panel glass-player-card p-4 shadow-lg d-flex flex-column flex-md-row align-items-center gap-4" id="masterPlayerDashboard">
+                <div class="text-center p-5 w-100"><i class="bi bi-arrow-clockwise spinner fs-2"></i></div>
+            </div>
+            
+            <audio id="music-audio" crossorigin="anonymous"></audio>
+        </section>
+
+        <section class="mx-auto" style="max-width: 700px;" data-aos="fade-up">
+            <h3 class="h5 mb-3 fw-bold text-white"><i class="bi bi-playlist-music text-gold me-2"></i>More Releases Queue</h3>
+            <div class="d-flex flex-column gap-2" id="musicQueueContainer">
+                <div class="text-center text-muted p-4">Syncing network release nodes...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="glass-panel mx-2 mx-md-4 my-4 p-4 text-center shadow">
+        <div class="social-links d-flex justify-content-center gap-3 mb-3">
+            <a href="#" target="_blank"><i class="bi bi-twitter-x"></i></a>
+            <a href="https://www.facebook.com/richesbosseswealthy" target="_blank"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/richesbosses" target="_blank"><i class="bi bi-instagram"></i></a>
+        </div>
+        <p class="mb-0 text-white-50 small">&copy; 2026 RICHES BOSSES MUSIC. All system assets dynamic.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>AOS.init({ duration: 800, once: true });</script>
+
+    <script>
+        const SUPABASE_URL = 'https://kshqtnqtyeqczswxtgdj.supabase.co';  
+        const SUPABASE_ANON_KEY = 'sb_publishable_BiZTbcIXG58BMRoQskCqmg_9zfrVrIs';  
+        
+        let supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let activeTrackList = [];
+        let currentCategory = 'All';
+
+        const audio = document.getElementById('music-audio');
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.toString().replace(/[&<>]/g, m => {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        // Parse explicit path parameters from address vector mapping loops
+        function getTrackIdFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+
+        // Boot and Pull Complete Audio Records Matrix
+        async function loadAudioLibrary() {
+            try {
+                let query = supabase.from('music').select('*').order('id', { ascending: false });
                 
-                <div class="music-cover-wrapper flex-shrink-0">
-                    <img src="cover.jpg" alt="Music Cover">
+                const { data, error } = await query;
+                if(error) throw error;
+                
+                activeTrackList = data || [];
+                renderEcosystem();
+
+            } catch(err) {
+                console.error("Critical telemetry network fault loading track records:", err);
+                document.getElementById('masterPlayerDashboard').innerHTML = `<div class="alert alert-danger bg-dark border-danger text-danger w-100 mb-0 small">Table connectivity schema lookup error on music profile lists.</div>`;
+            }
+        }
+
+        function renderEcosystem() {
+            if(activeTrackList.length === 0) {
+                document.getElementById('masterPlayerDashboard').innerHTML = `<div class="text-muted text-center py-4 w-100">Zero entries exist inside music grid schemas.</div>`;
+                return;
+            }
+
+            // Detect targeting vector inputs from address bars or default to head row pointer
+            const urlId = getTrackIdFromURL();
+            let chosenTrack = activeTrackList.find(t => t.id == urlId);
+            if(!chosenTrack) {
+                chosenTrack = activeTrackList[0]; 
+            }
+
+            // 1. Inject and Render Active Focused Player Card Panel Frame Components
+            const playerDashboard = document.getElementById('masterPlayerDashboard');
+            playerDashboard.innerHTML = `
+                <div class="music-cover-wrapper flex-shrink-0 mx-auto">
+                    <img src="${chosenTrack.cover_image || 'cover.jpg'}" alt="Artwork" id="playerArtworkElement">
                 </div>
                 
                 <div class="w-100">
                     <div class="text-center text-md-start mb-3">
-                        <h2 class="h4 mb-1 text-white fw-bold">My People</h2>
-                        <p class="text-white-50 mb-0">Blaq Symbol</p>
+                        <span class="badge bg-dark border border-secondary text-gold mb-2" style="font-size:0.7rem;">${escapeHtml(chosenTrack.category || 'Release')}</span>
+                        <h2 class="h4 mb-1 text-white fw-bold" id="playerTitleElement">${escapeHtml(chosenTrack.title)}</h2>
+                        <p class="text-white-50 mb-0" id="playerArtistElement">${escapeHtml(chosenTrack.artist)}</p>
                     </div>
 
-                    <div class="progress-container mb-2" id="progress-container" title="Click to seek">
+                    <div class="progress-container mb-2" id="progress-container" onclick="scrubAudioTimeline(event)">
                         <div class="progress-bar-filled" id="progress-bar"></div>
                     </div>
                     <div class="d-flex justify-content-between text-white-50 small mb-3">
@@ -182,101 +323,172 @@
                     </div>
 
                     <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
-                        <button class="btn btn-light rounded-pill px-4 d-flex align-items-center gap-2 fw-semibold" id="play-pause-button">
+                        <button class="btn btn-light rounded-pill px-4 d-flex align-items-center gap-2 fw-semibold" id="play-pause-button" onclick="togglePlayState()">
                             <i class="bi bi-play-fill fs-5" id="play-icon"></i> <span id="play-text">Play</span>
                         </button>
-                        <button class="btn btn-outline-light rounded-pill px-4 d-flex align-items-center gap-2" id="download-button">
-                            <i class="bi bi-cloud-arrow-down-fill fs-5"></i> Download
+                        <button class="btn btn-outline-light rounded-pill px-4 d-flex align-items-center gap-2" onclick="triggerSecureDownload('${chosenTrack.audio_url}', '${escapeHtml(chosenTrack.title)}')">
+                            <i class="bi bi-cloud-arrow-down fs-5"></i> Download
                         </button>
                     </div>
                 </div>
+            `;
 
-                <audio id="music-audio" src="Blaq_Symbol_-_My_People_(RichesBosses.com)_.mp3"></audio>
-            </div>
-        </section>
-    </main>
-
-    <footer class="glass-panel mx-2 mx-md-4 my-4 p-4 text-center shadow">
-        <div class="social-links d-flex justify-content-center gap-4 mb-3">
-            <a href="https://www.x.com/am_deejay_alex" target="_blank" title="X (Twitter)"><i class="bi bi-twitter-x"></i></a>
-            <a href="https://www.facebook.com/richesbosseswealthy" target="_blank" title="Facebook"><i class="bi bi-facebook"></i></a>
-            <a href="https://www.instagram.com/richesbosses" target="_blank" title="Instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" target="_blank" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-        </div>
-        <p class="mb-0 text-white-50">&copy; 2026 Riches Bosses Blog. All rights reserved.</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        const audio = document.getElementById('music-audio');
-        const playPauseBtn = document.getElementById('play-pause-button');
-        const playIcon = document.getElementById('play-icon');
-        const playText = document.getElementById('play-text');
-        const downloadBtn = document.getElementById('download-button');
-        
-        const progressBar = document.getElementById('progress-bar');
-        const progressContainer = document.getElementById('progress-container');
-        const currentTimeEl = document.getElementById('current-time');
-        const durationTimeEl = document.getElementById('duration-time');
-
-        // Play and Pause Trigger Toggle Functions
-        function togglePlay() {
-            if (audio.paused) {
-                audio.play();
-                playIcon.className = 'bi bi-pause-fill fs-5';
-                playText.textContent = 'Pause';
-            } else {
-                audio.pause();
-                playIcon.className = 'bi bi-play-fill fs-5';
-                playText.textContent = 'Play';
+            // Assign resource path directly to browser framework runtime pipeline layers
+            if(audio.src !== chosenTrack.audio_url) {
+                audio.src = chosenTrack.audio_url;
+                resetPlayerVisualStates();
             }
+
+            // 2. Render and Display Secondary Releases Queue List
+            renderQueueGrid();
         }
 
-        playPauseBtn.addEventListener('click', togglePlay);
-
-        // Track and Synchronize System Time/Progress Bar 
-        audio.addEventListener('timeupdate', () => {
-            if (audio.duration) {
-                const progressPercent = (audio.currentTime / audio.duration) * 100;
-                progressBar.style.width = `${progressPercent}%`;
-                
-                // Format display numbers safely
-                currentTimeEl.textContent = formatTime(audio.currentTime);
-                durationTimeEl.textContent = formatTime(audio.duration);
+        function renderQueueGrid() {
+            const queueContainer = document.getElementById('musicQueueContainer');
+            
+            // Apply logic-based sorting arrays for classification loops
+            let filtered = activeTrackList;
+            if(currentCategory !== 'All') {
+                filtered = activeTrackList.filter(t => t.category && t.category.toLowerCase().includes(currentCategory.toLowerCase()));
             }
-        });
 
-        // Click to jump timeline track scrub function handler
-        progressContainer.addEventListener('click', (e) => {
+            if(filtered.length === 0) {
+                queueContainer.innerHTML = `<div class="text-muted text-center small p-4">No structural matches inside targeted profile class indexes.</div>`;
+                return;
+            }
+
+            queueContainer.innerHTML = filtered.map(track => `
+                <div class="queue-item p-3 d-flex align-items-center justify-content-between gap-3">
+                    <div class="d-flex align-items-center gap-3 overflow-hidden" style="cursor:pointer;" onclick="selectTrackNode(${track.id})">
+                        <img src="${track.cover_image || 'cover.jpg'}" class="rounded" width="45" height="45" style="object-fit:cover;">
+                        <div class="text-truncate">
+                            <span class="text-white fw-bold d-block small text-truncate mb-0">${escapeHtml(track.title)}</span>
+                            <small class="text-muted text-truncate d-block">${escapeHtml(track.artist)}</small>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-secondary text-gold rounded-circle" onclick="selectTrackNode(${track.id})" title="Load to deck"><i class="bi bi-play-circle"></i></button>
+                        <button class="btn btn-sm btn-outline-secondary text-white-50 rounded-circle" onclick="triggerSecureDownload('${track.audio_url}', '${escapeHtml(track.title)}')"><i class="bi bi-download"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Live Category Filter Pipeline Configuration Action
+        window.filterCategory = function(categoryName) {
+            currentCategory = categoryName;
+            
+            // Adjust visualization parameters of pill active matrix indicators
+            const pills = document.querySelectorAll('#categoryCapsuleGrid .liquid-pill');
+            pills.forEach(pill => {
+                if(pill.textContent.toLowerCase().includes(categoryName.toLowerCase()) || (categoryName === 'All' && pill.textContent.includes('All'))) {
+                    pill.classList.add('active');
+                } else {
+                    pill.classList.remove('active');
+                }
+            });
+            renderQueueGrid();
+        };
+
+        window.selectTrackNode = function(id) {
+            const targetUrl = new URL(window.location.href);
+            targetUrl.searchParams.set('id', id);
+            window.history.pushState({}, '', targetUrl);
+            renderEcosystem();
+            setTimeout(() => { togglePlayState(); }, 250);
+        };
+
+        // Native Presentation Interaction Framework State Hooks
+        window.togglePlayState = function() {
+            const playIcon = document.getElementById('play-icon');
+            const playText = document.getElementById('play-text');
+            
+            if (audio.paused) {
+                audio.play().then(() => {
+                    if(playIcon) playIcon.className = 'bi bi-pause-fill fs-5';
+                    if(playText) playText.textContent = 'Pause';
+                }).catch(e => console.log("System block context preventing automatic streaming startup:", e));
+            } else {
+                audio.pause();
+                if(playIcon) playIcon.className = 'bi bi-play-fill fs-5';
+                if(playText) playText.textContent = 'Play';
+            }
+        };
+
+        window.scrubAudioTimeline = function(e) {
+            const progressContainer = document.getElementById('progress-container');
+            if(!progressContainer) return;
             const width = progressContainer.clientWidth;
             const clickX = e.offsetX;
             const duration = audio.duration;
             if(duration) {
                 audio.currentTime = (clickX / width) * duration;
             }
+        };
+
+        function resetPlayerVisualStates() {
+            const bar = document.getElementById('progress-bar');
+            if(bar) bar.style.width = '0%';
+            const currentEl = document.getElementById('current-time');
+            if(currentEl) currentEl.textContent = '0:00';
+        }
+
+        // Realtime Streaming Core Playback Calculations
+        audio.addEventListener('timeupdate', () => {
+            const progressBar = document.getElementById('progress-bar');
+            const currentTimeEl = document.getElementById('current-time');
+            const durationTimeEl = document.getElementById('duration-time');
+
+            if (audio.duration && progressBar) {
+                const progressPercent = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = `${progressPercent}%`;
+                
+                if(currentTimeEl) currentTimeEl.textContent = formatTime(audio.currentTime);
+                if(durationTimeEl) durationTimeEl.textContent = formatTime(audio.duration);
+            }
         });
 
-        // Audio Metadata parsing structural support fallbacks
         audio.addEventListener('loadedmetadata', () => {
-            durationTimeEl.textContent = formatTime(audio.duration);
+            const durationTimeEl = document.getElementById('duration-time');
+            if(durationTimeEl) durationTimeEl.textContent = formatTime(audio.duration);
         });
 
         function formatTime(time) {
+            if(isNaN(time)) return '0:00';
             const mins = Math.floor(time / 60);
             const secs = Math.floor(time % 60);
             return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
-        // Programmatic Binary Resource Download Stream Handlers
-        downloadBtn.addEventListener('click', () => {
-            const a = document.createElement('a');
-            a.href = audio.src;
-            a.download = 'Blaq_Symbol_-_My_People_(RichesBosses.com)_.mp3';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        });
+        // Programmatic Secure Asset Data Retrieval Pipeline
+        window.triggerSecureDownload = async function(url, filename) {
+            if(!url) return;
+            try {
+                // Instantly increment static tracking data parameters inside database metrics rows
+                const urlId = getTrackIdFromURL() || (activeTrackList[0] ? activeTrackList[0].id : null);
+                if(urlId) {
+                    await supabase.rpc('increment_play_count', { row_id: urlId }).catch(() => {});
+                }
+
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = `${filename.replace(/\s+/g, '_')}_(RichesBosses).mp3`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(blobUrl);
+            } catch (err) {
+                // Standard direct fallback strategy path routing
+                window.open(url, '_blank');
+            }
+        };
+
+        // Boot Pipeline Integration Cycle Execution
+        loadAudioLibrary();
     </script>
 </body>
 </html>
