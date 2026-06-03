@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riches Blog Movies</title>
+    <title>RICHES BOSSES | Cinematic Hub</title>
     <link rel="icon" type="image/x-icon" href="favicon.jpg">
     
     <!-- Bootstrap 5.3.2 CSS -->
@@ -13,40 +13,44 @@
     <!-- AOS Animation Engine CSS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 
+    <!-- Explicit UMD Browser Bundle for Supabase v2 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4/dist/umd/supabase.js"></script>
+
     <style>
-        /* Base Background Styling */
+        /* Base Cosmic Liquid Glass Base Layer */
         body {
-            background: linear-gradient(135deg, #090b11 0%, #0d1527 50%, #161233 100%) no-repeat center center fixed;
+            background: linear-gradient(135deg, #050714 0%, #0a0d22 50%, #120f35 100%) no-repeat center center fixed;
             background-size: cover;
             color: #f3f4f6;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             overflow-x: hidden;
             min-height: 100vh;
         }
 
-        /* Glassmorphism Structural Definition */
+        /* Glassmorphism Structural Panels */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px) saturate(130%);
-            -webkit-backdrop-filter: blur(20px) saturate(130%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px) saturate(140%);
+            -webkit-backdrop-filter: blur(20px) saturate(140%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Liquid Category Badge Controls */
+        /* Interactive Liquid Category Badge Controls */
         .category-pill {
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 12px;
             padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 50px;
-            color: rgba(255, 255, 255, 0.8);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
         }
 
         .category-pill img {
@@ -54,33 +58,33 @@
             height: 32px;
             object-fit: cover;
             border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             transition: transform 0.3s ease;
         }
 
-        .category-pill:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
-            color: #ffffff;
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        .category-pill:hover, .category-pill.active {
+            background: rgba(255, 179, 71, 0.1);
+            border-color: rgba(255, 215, 120, 0.4);
+            color: #FFD778;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(255, 179, 71, 0.15);
         }
 
-        .category-pill:hover img {
-            transform: scale(1.15) rotate(5deg);
+        .category-pill:hover img, .category-pill.active img {
+            transform: scale(1.1) rotate(3deg);
         }
 
         /* Interactive Movie Download Row Styles */
         .movie-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .movie-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 179, 71, 0.2);
             transform: translateX(4px);
         }
 
@@ -92,68 +96,106 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Header / Nav Link Styles */
-        .nav-link {
-            color: rgba(255, 255, 255, 0.7) !important;
-            transition: color 0.3s, text-shadow 0.3s;
-        }
-        .nav-link:hover, .nav-link.active {
-            color: #ffffff !important;
-            text-shadow: 0 0 8px rgba(255,255,255,0.5);
+        /* Premium Gold Accents & Typography */
+        .text-gold {
+            color: #FFD778 !important;
+            text-shadow: 0 0 12px rgba(255, 215, 120, 0.15);
         }
 
-        /* Neon Category Header Accentuation */
+        .nav-link {
+            color: rgba(255, 255, 255, 0.65) !important;
+            font-weight: 500;
+            padding: 10px 16px !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #FFD778 !important;
+            text-shadow: 0 0 10px rgba(255, 215, 120, 0.3);
+        }
+
         .category-title {
-            color: #38bdf8;
+            color: #FFD778;
             font-weight: 700;
             letter-spacing: 0.5px;
-            border-left: 4px solid #38bdf8;
+            border-left: 4px solid #FFB347;
             padding-left: 12px;
         }
 
         /* Custom Fluid Video Tag Frame Styling */
         .video-viewport {
-            border-radius: 16px;
+            border-radius: 18px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.15);
-            box-shadow: 0 12px 36px rgba(0,0,0,0.6);
-            background: #000;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            background: #020308;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #FFB347 0%, #FFCC67 100%);
+            border: none;
+            color: #050714 !important;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 179, 71, 0.35);
         }
 
         /* Social Link Setup */
         .social-links a {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.3rem;
-            transition: transform 0.3s, color 0.3s;
-            display: inline-block;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
         }
+
         .social-links a:hover {
-            color: #ffffff;
-            transform: scale(1.2);
+            color: #050714;
+            background: #FFB347;
+            transform: scale(1.1);
         }
+
+        .spinner {
+            animation: spin 1s linear infinite;
+            color: #FFB347;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <span id="top"></span>
+    <span id="top-node"></span>
 
     <!-- Header / Global Nav Block -->
     <header class="mb-4">
-        <nav class="navbar navbar-expand-lg glass-panel mt-3 mx-2 mx-md-4 px-3">
+        <nav class="navbar navbar-expand-lg glass-panel mt-3 mx-2 mx-md-4 px-3 py-3">
             <div class="container-fluid">
-                <a class="navbar-brand text-white fw-bold" href="index.html">RICHES-BLOG</a>
+                <a class="navbar-brand text-white fw-bold d-flex align-items-center gap-2" href="index.html">
+                    <span style="letter-spacing: 0.5px;">RICHES <span class="text-gold">BOSSES</span></span>
+                </a>
                 
                 <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#movieNavbar" aria-controls="movieNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="bi bi-list fs-2 text-white"></span>
+                    <span class="bi bi-list fs-1 text-white"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="movieNavbar">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1">
-                        <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-door-fill me-1"></i>Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="Music.html"><i class="bi bi-music-note-beamed me-1"></i>Music</a></li>
                         <li class="nav-item"><a class="nav-link active" href="video.html"><i class="bi bi-film me-1"></i>Movies</a></li>
-                        <li class="nav-item"><a class="nav-link" href="story.html"><i class="bi bi-pen-fill me-1"></i>Stories</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.html"><i class="bi bi-person-fill me-1"></i>About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.html"><i class="bi bi-envelope-fill me-1"></i>Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="story.html"><i class="bi bi-pen me-1"></i>Stories</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.html"><i class="bi bi-info-circle me-1"></i>About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.html"><i class="bi bi-envelope me-1"></i>Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -164,213 +206,71 @@
     <main class="container my-5" style="max-width: 950px;">
         
         <!-- Interactive Horizontal Categorization Navigation Carousel Bar -->
-        <section class="glass-panel p-3 mb-5 shadow-lg">
-            <div class="d-flex flex-wrap justify-content-center gap-3">
-                <a href="#animation" class="category-pill">
+        <section class="glass-panel p-3 mb-5 shadow-lg" data-aos="fade-up">
+            <div class="d-flex flex-wrap justify-content-center gap-3" id="categoryGridEngine">
+                <div class="category-pill active" onclick="setCatalogFilter('All')">
+                    <img src="logo.jpg" alt="All">
+                    <span>All Cinema</span>
+                </div>
+                <div class="category-pill" onclick="setCatalogFilter('Animation')">
                     <img src="animation-cover.jpg" alt="Animation">
                     <span>Animation</span>
-                </a>
-                <a href="#action-movies" class="category-pill">
+                </div>
+                <div class="category-pill" onclick="setCatalogFilter('Action')">
                     <img src="action-movie-cover.jpg" alt="Action">
                     <span>Action Movies</span>
-                </a>
-                <a href="#kdrama" class="category-pill">
+                </div>
+                <div class="category-pill" onclick="setCatalogFilter('K-Drama')">
                     <img src="kdrama-cover.jpg" alt="K-Drama">
                     <span>K-Drama</span>
-                </a>
-                <a href="#comedy" class="category-pill">
+                </div>
+                <div class="category-pill" onclick="setCatalogFilter('Comedy')">
                     <img src="comedy-cover.jpg" alt="Comedy">
                     <span>Comedy</span>
-                </a>
-                <a href="#horror" class="category-pill">
+                </div>
+                <div class="category-pill" onclick="setCatalogFilter('Horror')">
                     <img src="horror-cover.jpg" alt="Horror">
                     <span>Horror</span>
-                </a>
+                </div>
             </div>
         </section>
 
         <!-- STREAMING SHOWCASE VIDEO SPOTLIGHT SECTION -->
-        <section class="glass-panel p-4 mb-5 shadow-lg text-center" data-aos="zoom-in">
-            <h3 class="h4 mb-4 text-white fw-bold"><i class="bi bi-play-circle-fill me-2 text-danger"></i> Featured Video Stream</h3>
-            <div class="video-viewport max-width-lg mx-auto mb-4" style="max-width: 700px;">
-                <video class="w-100 d-block" height="400" id="main-video-player" controls autoplay>
-                    <source src="download1.mp4" type="video/mp4">
+        <section class="glass-panel p-4 mb-5 shadow-lg text-center" id="spotlightPlayerCard" data-aos="zoom-in">
+            <h3 class="h5 mb-4 text-white fw-bold d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-play-circle-fill text-gold"></i> Live Screening Viewport
+            </h3>
+            <div class="video-viewport max-width-lg mx-auto mb-4" style="max-width: 750px;">
+                <video class="w-100 d-block" height="420" id="main-video-player" controls>
+                    <source src="" type="video/mp4" id="primaryVideoSource">
                     Your browser does not support the video tag.
                 </video>
             </div>
-            <button class="btn btn-light rounded-pill px-4 fw-semibold shadow-sm" id="download-btn">
-                <i class="bi bi-cloud-arrow-down-fill me-2"></i> Download Feature Video
+            <div class="mb-2">
+                <h4 class="h5 text-white fw-bold mb-1" id="spotlightTitle">Loading asset streams...</h4>
+                <p class="small text-muted mb-3" id="spotlightCategory">Connecting database records...</p>
+            </div>
+            <button class="btn btn-gold btn-sm rounded-pill px-4 py-2 fw-semibold shadow-sm" id="globalDownloadAction">
+                <i class="bi bi-cloud-arrow-down-fill me-2"></i> Download Selected Feature
             </button>
         </section>
 
-        <!-- CATEGORY: ANIMATION -->
-        <section id="animation" class="glass-panel p-4 p-md-5 mb-5 shadow-lg" data-aos="fade-up">
-            <h2 class="h3 category-title mb-4 text-uppercase">Animation</h2>
-            <div class="d-flex flex-column gap-3">
-                
-                <!-- Item Block -->
-                <div class="movie-card p-3 d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
-                    <a href="HITPIG.(RICHES-BLOG-MOVIES).2024-DOWNLOAD.mp4" download class="text-decoration-none d-flex align-items-center gap-3 flex-grow-1 text-white">
-                        <img src="animation-cover.jpg" alt="Hitpig cover" class="movie-thumb flex-shrink-0">
-                        <span class="fw-semibold">HITPIG 2024 DOWNLOAD MP4 (RICHES-BLOG-MOVIES)</span>
-                    </a>
-                    <a href="HITPIG.(RICHES-BLOG-MOVIES).2024-DOWNLOAD.mp4" download class="btn btn-primary rounded-pill px-4 flex-shrink-0">
-                        <i class="bi bi-download me-1"></i> Download
-                    </a>
-                </div>
-
-                <!-- Item Block -->
-                <div class="movie-card p-3 d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
-                    <a href="Kung.Fu.Panda.4.(RICHES-BLOG-MOVIES).2024..mp4" download class="text-decoration-none d-flex align-items-center gap-3 flex-grow-1 text-white">
-                        <img src="animation-cover2.jpg" alt="Kung Fu Panda cover" class="movie-thumb flex-shrink-0">
-                        <span class="fw-semibold">KungFu Panda 4 2024 Download MP4 (RICHES-BLOG-MOVIES)</span>
-                    </a>
-                    <a href="Kung.Fu.Panda.4.(RICHES-BLOG-MOVIES).2024..mp4" download class="btn btn-primary rounded-pill px-4 flex-shrink-0">
-                        <i class="bi bi-download me-1"></i> Download
-                    </a>
-                </div>
-
-                <!-- Item Block -->
-                <div class="movie-card p-3 d-flex align-items-center justify-content-between gap-3">
-                    <span class="text-white-50 fw-medium ps-2">Animation Video Clip 3</span>
-                    <div class="d-flex gap-2">
-                        <a href="animation/video3.mp4" class="btn btn-sm btn-outline-light rounded-pill px-3">Watch</a>
-                        <a href="animation/video3.mp4" download class="btn btn-sm btn-primary rounded-pill px-3">Download</a>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- CATEGORY: ACTION MOVIES -->
-        <section id="action-movies" class="glass-panel p-4 p-md-5 mb-5 shadow-lg" data-aos="fade-up">
-            <h2 class="h3 category-title mb-4 text-uppercase">Action Movies</h2>
-            <div class="d-flex flex-column gap-3">
-                <div class="movie-card p-3 d-flex align-items-center justify-content-between">
-                    <span class="text-white ps-2 fw-medium">Action Movie Selection 1</span>
-                    <div class="d-flex gap-2">
-                        <a href="action-movies/movie1.mp4" class="btn btn-sm btn-outline-light rounded-pill px-3">Watch</a>
-                        <a href="action-movies/movie1.mp4" download class="btn btn-sm btn-primary rounded-pill px-3">Download</a>
-                    </div>
-                </div>
-                <div class="movie-card p-3 d-flex align-items-center justify-content-between">
-                    <span class="text-white ps-2 fw-medium">Action Movie Selection 2</span>
-                    <div class="d-flex gap-2">
-                        <a href="action-movies/movie2.mp4" class="btn btn-sm btn-outline-light rounded-pill px-3">Watch</a>
-                        <a href="action-movies/movie2.mp4" download class="btn btn-sm btn-primary rounded-pill px-3">Download</a>
-                    </div>
-                </div>
-                <div class="movie-card p-3 d-flex align-items-center justify-content-between">
-                    <span class="text-white ps-2 fw-medium">Action Movie Selection 3</span>
-                    <div class="d-flex gap-2">
-                        <a href="action-movies/movie3.mp4" class="btn btn-sm btn-outline-light rounded-pill px-3">Watch</a>
-                        <a href="action-movies/movie3.mp4" download class="btn btn-sm btn-primary rounded-pill px-3">Download</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CATEGORY: K-DRAMA -->
-        <section id="kdrama" class="glass-panel p-4 p-md-5 mb-5 shadow-lg" data-aos="fade-up">
-            <h2 class="h3 category-title mb-4 text-uppercase">K-Drama</h2>
-            <div class="d-flex flex-column gap-3">
-                <div class="movie-card p-3 d-flex align-items-center justify-content-between">
-                    <span class="text-white ps-2 fw-medium">Korean Drama Sequence 1</span>
-                    <div class="d-flex gap-2">
-                        <a href="kdrama/drama1.mp4" class="btn btn-sm btn-outline-light rounded-pill px-3">Watch</a>
-                        <a href="kdrama/drama1.mp4" download class="btn btn-sm btn-primary rounded-pill px-3">Download</a>
-                    </div>
-                </div>
-                <div class="movie-card p-3 d-flex align-items-center justify-content-between">
-                    <span class="text-white ps-2 fw-medium">Korean Drama Sequence 2</span>
-                    <div class="d-flex gap-2">
-                        <a href="kdrama/drama2.mp4" class="btn btn-sm btn-outline-light rounded-pill px-3">Watch</a>
-                        <a href="kdrama/drama2.mp4" download class="btn btn-sm btn-primary rounded-pill px-3">Download</a>
-                    </div>
-                </div>
-                <div class="movie-card p-3 d-flex align-items-center justify-content-between">
-                    <span class="text-white ps-2 fw-medium">Korean Drama Sequence 3</span>
-                    <div class="d-flex gap-2">
-                        <a href="kdrama/drama3.mp4" class="btn btn-sm btn-outline-light rounded-pill px-3">Watch</a>
-                        <a href="kdrama/drama3.mp4" download class="btn btn-sm btn-primary rounded-pill px-3">Download</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CATEGORY: COMEDY -->
-        <section id="comedy" class="glass-panel p-4 p-md-5 mb-5 shadow-lg" data-aos="fade-up">
-            <h2 class="h3 category-title mb-4 text-uppercase">Comedy</h2>
-            <div class="d-flex flex-column gap-3">
-                <div class="movie-card p-3 d-flex align-items-center justify-content-between">
-                    <span class="text-white ps-2 fw-medium">Comedy Compilation Clip 1</span>
-                    <div class="d-flex gap-2">
-                        <a href="comedy/comedy1.mp4" class="btn btn-sm btn-outline-light rounded-pill px-3">Watch</a>
-                        <a href="comedy/comedy1.mp4" download class="btn btn-sm btn-primary rounded-pill px-3">Download</a>
-                    </div>
-                </div>
-                <div class="movie-card p-3 d-flex align-items-center justify-content-between">
-                    <span class="text-white ps-2 fw-medium">Comedy Compilation Clip 2</span>
-                    <div class="d-flex gap-2">
-                        <a href="comedy/comedy2.mp4" class="btn btn-sm btn-outline-light rounded-pill px-3">Watch</a>
-                        <a href="comedy/comedy2.mp4" download class="btn btn-sm btn-primary rounded-pill px-3">Download</a>
-                    </div>
-                </div>
-                <div class="movie-card p-3 d-flex align-items-center justify-content-between">
-                    <span class="text-white ps-2 fw-medium">Comedy Compilation Clip 3</span>
-                    <div class="d-flex gap-2">
-                        <a href="comedy/comedy3.mp4" class="btn btn-sm btn-outline-light rounded-pill px-3">Watch</a>
-                        <a href="comedy/comedy3.mp4" download class="btn btn-sm btn-primary rounded-pill px-3">Download</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CATEGORY: HORROR -->
-        <section id="horror" class="glass-panel p-4 p-md-5 mb-5 shadow-lg" data-aos="fade-up">
-            <h2 class="h3 category-title mb-4 text-uppercase">Horror</h2>
-            <div class="d-flex flex-column gap-3">
-                <div class="movie-card p-3 d-flex align-items-center justify-content-between">
-                    <span class="text-white ps-2 fw-medium">Horror Motion Broadcast 1</span>
-                    <div class="d-flex gap-2">
-                        <a href="horror/horror1.mp4" class="btn btn-sm btn-outline-light rounded-pill px-3">Watch</a>
-                        <a href="horror/horror1.mp4" download class="btn btn-sm btn-primary rounded-pill px-3">Download</a>
-                    </div>
-                </div>
-                <div class="movie-card p-3 d-flex align-items-center justify-content-between">
-                    <span class="text-white ps-2 fw-medium">Horror Motion Broadcast 2</span>
-                    <div class="d-flex gap-2">
-                        <a href="horror/horror2.mp4" class="btn btn-sm btn-outline-light rounded-pill px-3">Watch</a>
-                        <a href="horror/horror2.mp4" download class="btn btn-sm btn-primary rounded-pill px-3">Download</a>
-                    </div>
-                </div>
-                <div class="movie-card p-3 d-flex align-items-center justify-content-between">
-                    <span class="text-white ps-2 fw-medium">Horror Motion Broadcast 3</span>
-                    <div class="d-flex gap-2">
-                        <a href="horror/horror3.mp4" class="btn btn-sm btn-outline-light rounded-pill px-3">Watch</a>
-                        <a href="horror/horror3.mp4" download class="btn btn-sm btn-primary rounded-pill px-3">Download</a>
-                    </div>
-                </div>
-            </div>
+        <!-- DYNAMIC RENDERING BLOCK CONTAINER -->
+        <section id="dynamicCinemaContainer" class="mb-5">
+            <div class="text-center p-5"><i class="bi bi-arrow-clockwise spinner fs-1"></i></div>
         </section>
 
         <!-- IMAGE PROMOTIONAL BRAND CAROUSEL SLIDER -->
         <div id="promoCarousel" class="carousel slide glass-panel p-2 shadow-lg mb-4" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active" data-bs-interval="3000">
-                    <a href="https://www.example.com/link1">
-                        <img src="logo.jpg" class="d-block w-100 rounded-4" style="height:260px; object-fit:cover;" alt="Slide 1">
-                    </a>
+                    <img src="logo.jpg" class="d-block w-100 rounded-4" style="height:260px; object-fit:cover;" alt="Slide 1">
                 </div>
                 <div class="carousel-item" data-bs-interval="3000">
-                    <a href="https://www.example.com/link2">
-                        <img src="favicon.png" class="d-block w-100 rounded-4" style="height:260px; object-fit:cover;" alt="Slide 2">
-                    </a>
+                    <img src="favicon.jpg" class="d-block w-100 rounded-4" style="height:260px; object-fit:cover;" alt="Slide 2">
                 </div>
                 <div class="carousel-item" data-bs-interval="3000">
-                    <a href="https://www.example.com/link3">
-                        <img src="cover.jpg" class="d-block w-100 rounded-4" style="height:260px; object-fit:cover;" alt="Slide 3">
-                    </a>
+                    <img src="cover.jpg" class="d-block w-100 rounded-4" style="height:260px; object-fit:cover;" alt="Slide 3">
                 </div>
             </div>
         </div>
@@ -379,17 +279,16 @@
 
     <!-- Footer Area Components -->
     <footer class="glass-panel mx-2 mx-md-4 my-4 p-4 text-center shadow position-relative">
-        <div class="social-links d-flex justify-content-center gap-4 mb-3">
-            <a href="https://www.x.com/am_deejay_alex" target="_blank" title="X (Twitter)"><i class="bi bi-twitter-x"></i></a>
-            <a href="https://www.facebook.com/richesbosseswealthy" target="_blank" title="Facebook"><i class="bi bi-facebook"></i></a>
-            <a href="https://www.instagram.com/richesbosses" target="_blank" title="Instagram"><i class="bi bi-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/alhassan-abdul-mumin-b4b0a0258" target="_blank" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+        <div class="social-links d-flex justify-content-center gap-3 mb-3">
+            <a href="#" target="_blank"><i class="bi bi-twitter-x"></i></a>
+            <a href="https://www.facebook.com/richesbosseswealthy" target="_blank"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/richesbosses" target="_blank"><i class="bi bi-instagram"></i></a>
         </div>
         
-        <p class="mb-0 text-white-50">&copy; 2026 Riches Bosses Blog. All rights reserved.</p>
+        <p class="mb-0 text-white-50 small">&copy; 2026 RICHES BOSSES CINEMA. All rights reserved.</p>
         
         <div class="mt-3">
-            <a href="#top" class="text-white-50 text-decoration-none small">
+            <a href="#top-node" class="text-white-50 text-decoration-none small">
                 <i class="bi bi-arrow-up-circle-fill fs-5 align-middle me-1"></i> Back to Top
             </a>
         </div>
@@ -397,44 +296,199 @@
 
     <!-- Bootstrap 5.3.2 Bundled JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
     <!-- AOS Scroll Engine Framework JS -->
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>AOS.init({ duration: 800, once: true });</script>
+
+    <!-- Supabase Core Architecture Script Logic Controller -->
     <script>
-        AOS.init({
-            duration: 800,
-            once: true
-        });
+        const SUPABASE_URL = 'https://kshqtnqtyeqczswxtgdj.supabase.co';  
+        const SUPABASE_ANON_KEY = 'sb_publishable_BiZTbcIXG58BMRoQskCqmg_9zfrVrIs';  
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let movieRecordsMaster = [];
+        let globalSelectedFilter = 'All';
+        let currentLoadedDownloadUrl = '';
 
-        // Binary Video Resource Blob Downloader Interceptor Logic
-        document.getElementById('download-btn').addEventListener('click', () => {
-            const btn = document.getElementById('download-btn');
-            const originalHTML = btn.innerHTML;
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.toString().replace(/[&<>]/g, m => {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        // Fetch Data Array Matrix Blocks
+        async function fetchCinemaCatalog() {
+            try {
+                const { data, error } = await supabase
+                    .from('movies')
+                    .select('*')
+                    .order('id', { ascending: false });
+
+                if (error) throw error;
+                movieRecordsMaster = data || [];
+                
+                initSpotlightPipeline();
+                renderDynamicCatalog();
+
+            } catch (err) {
+                console.error("Critical error building cinematic stream mapping arrays:", err);
+                document.getElementById('dynamicCinemaContainer').innerHTML = `
+                    <div class="alert alert-danger bg-dark border-danger text-danger text-center small">
+                        Failed to connect to movie pipeline grid tables. Please check database tables mapping.
+                    </div>`;
+            }
+        }
+
+        // Initialize Primary Video Engine Core Pointer Elements
+        function initSpotlightPipeline() {
+            if (movieRecordsMaster.length === 0) {
+                document.getElementById('spotlightTitle').textContent = "No Cinema Nodes Found";
+                return;
+            }
+            // Load the most recent index vector profile asset row down automatically
+            mountVideoTrack(movieRecordsMaster[0].id, false);
+        }
+
+        // Mounting Function Vector Targets
+        window.mountVideoTrack = function(trackId, autostart = true) {
+            const chosenTrack = movieRecordsMaster.find(m => m.id == trackId);
+            if (!chosenTrack) return;
+
+            const player = document.getElementById('main-video-player');
+            const source = document.getElementById('primaryVideoSource');
             
-            btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status"></span> Fetching...`;
-            btn.disabled = true;
+            source.src = chosenTrack.video_url;
+            currentLoadedDownloadUrl = chosenTrack.video_url;
+            
+            document.getElementById('spotlightTitle').textContent = chosenTrack.title;
+            document.getElementById('spotlightCategory').textContent = `Genre / Classification: ${chosenTrack.category || 'General Cinema'}`;
+            
+            player.load();
+            if (autostart) {
+                player.play().catch(e => console.log("Native video interaction restriction caught:", e));
+                document.getElementById('spotlightPlayerCard').scrollIntoView({ behavior: 'smooth' });
+            }
+        };
 
-            fetch('download1.mp4')
-                .then(response => {
-                    if (!response.ok) throw new Error('Network error');
-                    return response.blob();
-                })
-                .then(blob => {
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'download1.mp4';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                })
-                .catch(err => console.error('Download routine execution exception:', err))
-                .finally(() => {
-                    btn.innerHTML = originalHTML;
-                    btn.disabled = false;
-                });
+        // Render Dynamic Group Filters
+        function renderDynamicCatalog() {
+            const targetOutputBlock = document.getElementById('dynamicCinemaContainer');
+            
+            // Extract distinct genres automatically or run user criteria constraints loop
+            let categoriesToRender = ['Animation', 'Action', 'K-Drama', 'Comedy', 'Horror'];
+            if (globalSelectedFilter !== 'All') {
+                categoriesToRender = [globalSelectedFilter];
+            }
+
+            let combinedHtmlBlock = '';
+
+            categoriesToRender.forEach(genre => {
+                // Perform robust subset sorting logic execution checks
+                const segmentedList = movieRecordsMaster.filter(movie => 
+                    movie.category && movie.category.toLowerCase().includes(genre.toLowerCase())
+                );
+
+                if (segmentedList.length === 0 && globalSelectedFilter !== 'All') {
+                    combinedHtmlBlock += `
+                        <div class="glass-panel p-4 text-center text-muted small shadow mb-4" data-aos="fade-up">
+                            No cinematic items found mapping to "${genre}" table columns.
+                        </div>`;
+                    return;
+                }
+
+                if (segmentedList.length > 0) {
+                    combinedHtmlBlock += `
+                        <div class="glass-panel p-4 p-md-5 mb-4 shadow-lg" data-aos="fade-up">
+                            <h2 class="h4 category-title mb-4 text-uppercase">${genre} Index</h2>
+                            <div class="d-flex flex-column gap-3">
+                                ${segmentedList.map(movie => `
+                                    <div class="movie-card p-3 d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+                                        <div class="d-flex align-items-center gap-3 flex-grow-1" style="cursor:pointer;" onclick="mountVideoTrack(${movie.id})">
+                                            <img src="${movie.cover_image || 'logo.jpg'}" alt="Thumb" class="movie-thumb flex-shrink-0">
+                                            <div>
+                                                <span class="fw-semibold text-white d-block mb-1">${escapeHtml(movie.title)}</span>
+                                                <span class="badge bg-dark border border-secondary text-gold" style="font-size:0.65rem;">Stream HD</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex gap-2 align-items-center justify-content-end">
+                                            <button onclick="mountVideoTrack(${movie.id})" class="btn btn-sm btn-outline-light rounded-pill px-3">Watch</button>
+                                            <button onclick="triggerAssetDownload('${movie.video_url}', '${escapeHtml(movie.title)}')" class="btn btn-sm btn-primary rounded-pill px-3"><i class="bi bi-download"></i></button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>`;
+                }
+            });
+
+            targetOutputBlock.innerHTML = combinedHtmlBlock || `<div class="text-center text-white-50 p-5">Database cluster currently contains empty indices.</div>`;
+        }
+
+        // Live Dynamic Filtering Trigger Methods
+        window.setCatalogFilter = function(filterValue) {
+            globalSelectedFilter = filterValue;
+            
+            // Adjust visualization indicator tags across UI matrix elements
+            const pills = document.querySelectorAll('#categoryGridEngine .category-pill');
+            pills.forEach(p => {
+                if(p.textContent.toLowerCase().includes(filterValue.toLowerCase()) || (filterValue === 'All' && p.textContent.includes('All'))) {
+                    p.classList.add('active');
+                } else {
+                    p.classList.remove('active');
+                }
+            });
+
+            renderDynamicCatalog();
+        };
+
+        // Programmatic Core File System Extraction Operations
+        window.triggerAssetDownload = async function(url, filename) {
+            if (!url) return;
+            const targetBtn = event ? event.currentTarget : null;
+            let originalInnerContent = '';
+            
+            if (targetBtn) {
+                originalInnerContent = targetBtn.innerHTML;
+                targetBtn.innerHTML = `<span class="spinner-border spinner-border-sm"></span>`;
+                targetBtn.disabled = true;
+            }
+
+            try {
+                const res = await fetch(url);
+                const assetBlob = await res.blob();
+                const objectBinaryUrl = window.URL.createObjectURL(assetBlob);
+                
+                const virtualAnchor = document.createElement('a');
+                virtualAnchor.href = objectBinaryUrl;
+                virtualAnchor.download = `${filename.replace(/\s+/g, '_')}_(RichesBosses).mp4`;
+                document.body.appendChild(virtualAnchor);
+                virtualAnchor.click();
+                
+                document.body.removeChild(virtualAnchor);
+                window.URL.revokeObjectURL(objectBinaryUrl);
+            } catch (err) {
+                // Direct alternate layout routing fallback execution path
+                window.open(url, '_blank');
+            } finally {
+                if (targetBtn) {
+                    targetBtn.innerHTML = originalInnerContent;
+                    targetBtn.disabled = false;
+                }
+            }
+        };
+
+        // Spotlight Downloader Logic Event Connector Binding Configuration
+        document.getElementById('globalDownloadAction').addEventListener('click', function(e) {
+            const currentTitle = document.getElementById('spotlightTitle').textContent;
+            triggerAssetDownload(currentLoadedDownloadUrl, currentTitle);
         });
+
+        // Initialize Execution Pipelines Loops
+        fetchCinemaCatalog();
     </script>
 </body>
 </html>
