@@ -3,248 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us | Riches Blog</title>
+    <title>RICHES BOSSES | Communication Core</title>
     <link rel="icon" type="image/x-icon" href="favicon.jpg">
     
-    <!-- Bootstrap 5.3.2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4/dist/umd/supabase.js"></script>
 
     <style>
-        /* Industrial Precision Design System */
-        :root {
-            --dark-steel: #060B16;
-            --dark-panel: #0d1424;
-            --amber-accent: #F59E0B;
-            --amber-hover: #d97706;
-            --text-main: #e2e8f0;
-            --text-muted: #94a3b8;
-            --border-color: #1e293b;
-        }
-
+        /* Deep Cosmic Liquid Glass Design Token Foundation */
         body {
-            background-color: var(--dark-steel);
-            color: var(--text-main);
-            font-family: 'SF Mono', 'Roboto Mono', 'Courier New', Courier, monospace;
+            background: linear-gradient(135deg, #050714 0%, #0a0d22 50%, #120f35 100%) no-repeat center center fixed;
+            background-size: cover;
+            color: #f3f4f6;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* Nav & Header Architecture */
-        .navbar-custom {
-            background-color: var(--dark-panel);
-            border-bottom: 2px solid var(--border-color);
-        }
-        
-        .navbar-brand {
-            color: var(--amber-accent) !important;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .nav-link {
-            color: var(--text-muted) !important;
-            transition: color 0.2s ease, transform 0.2s ease;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--amber-accent) !important;
-        }
-
-        /* Structural Panels */
-        .industrial-panel {
-            background-color: var(--dark-panel);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        /* Glassmorphism Structural Panels */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px) saturate(140%);
+            -webkit-backdrop-filter: blur(20px) saturate(140%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
         }
 
-        /* Amber Accent Line for Panels */
-        .industrial-panel::before {
+        /* Continuous Cybernetic Accent Trim Line across Panel Elements */
+        .glass-panel::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 3px;
-            background-color: var(--amber-accent);
+            background: linear-gradient(90deg, #FFB347, #FFCC67);
         }
 
-        /* Form Inputs */
+        /* Typography Highlights & Accents */
+        .text-gold {
+            color: #FFD778 !important;
+            text-shadow: 0 0 12px rgba(255, 215, 120, 0.15);
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.65) !important;
+            font-weight: 500;
+            padding: 10px 16px !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #FFD778 !important;
+            text-shadow: 0 0 10px rgba(255, 215, 120, 0.3);
+        }
+
+        /* Form Architectural Framework Controls */
         .form-control {
-            background-color: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-family: monospace;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .form-control:focus {
             background-color: rgba(255, 255, 255, 0.05);
-            border-color: var(--amber-accent);
-            color: var(--text-main);
-            box-shadow: 0 0 0 0.25rem rgba(245, 158, 11, 0.15);
+            border-color: #FFB347;
+            color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(255, 179, 71, 0.15);
         }
 
         .form-control::placeholder {
-            color: var(--text-muted);
-            opacity: 0.5;
+            color: rgba(255, 255, 255, 0.25);
         }
 
-        /* Action Buttons */
-        .btn-amber {
-            background-color: var(--amber-accent);
-            color: var(--dark-steel);
-            font-weight: bold;
+        /* Action Buttons Styling */
+        .btn-gold {
+            background: linear-gradient(135deg, #FFB347 0%, #FFCC67 100%);
             border: none;
-            border-radius: 4px;
-            transition: background-color 0.2s ease, transform 0.1s ease;
+            color: #050714 !important;
+            font-weight: 700;
+            border-radius: 12px;
+            transition: all 0.3s ease;
         }
 
-        .btn-amber:hover {
-            background-color: var(--amber-hover);
-            transform: translateY(-1px);
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 179, 71, 0.35);
         }
 
-        /* Typographic Highlights */
-        .text-amber {
-            color: var(--amber-accent) !important;
-        }
-
-        /* Footer Architecture */
-        footer {
-            background-color: var(--dark-panel);
-            border-top: 1px solid var(--border-color);
-            margin-top: auto;
-        }
-
-        .social-link {
-            color: var(--text-muted);
-            transition: color 0.2s ease;
-            font-size: 1.25rem;
-        }
-
-        .social-link:hover {
-            color: var(--amber-accent);
-        }
-
-        /* Simulated reCAPTCHA Container */
+        /* Simulated Endpoint Checkers Vector Container */
         .recaptcha-mock {
-            background-color: rgba(255, 255, 255, 0.02);
-            border: 1px dashed var(--border-color);
-            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.01);
+            border: 1px dashed rgba(255, 255, 255, 0.08);
+            padding: 16px;
             text-align: center;
-            color: var(--text-muted);
-            border-radius: 4px;
-            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.4);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-family: monospace;
         }
+
+        /* Social Link Component Assets Mapping Matrix */
+        .social-links a {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .social-links a:hover {
+            color: #050714;
+            background: #FFB347;
+            transform: scale(1.1);
+        }
+
+        .spinner {
+            animation: spin 1s linear infinite;
+            color: #050714;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <!-- Header / Global Nav Block -->
     <header>
-        <nav class="navbar navbar-expand-lg navbar-custom py-3 px-4">
+        <nav class="navbar navbar-expand-lg glass-panel mt-3 mx-2 mx-md-4 px-3 py-3">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">RICHES_BLOG</a>
+                <a class="navbar-brand text-white fw-bold d-flex align-items-center gap-2" href="index.html">
+                    <span style="letter-spacing: 0.5px;">RICHES <span class="text-gold">BOSSES</span></span>
+                </a>
                 
-                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="bi bi-list fs-2 text-amber"></span>
+                <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="bi bi-list fs-1 text-white"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="mainNav">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-3">
-                        <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-home me-2"></i>Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Music.html"><i class="fa fa-music me-2"></i>Music</a></li>
-                        <li class="nav-item"><a class="nav-link" href="video.html"><i class="fa fa-film me-2"></i>Movies</a></li>
-                        <li class="nav-item"><a class="nav-link" href="story.html"><i class="fas fa-pen-nib me-2"></i>Stories</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.html"><i class="fas fa-user me-2"></i>About</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="contact.html"><i class="fas fa-envelope me-2"></i>Contact</a></li>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1">
+                        <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Music.html"><i class="bi bi-music-note-beamed me-1"></i>Music</a></li>
+                        <li class="nav-item"><a class="nav-link" href="video.html"><i class="bi bi-film me-1"></i>Movies</a></li>
+                        <li class="nav-item"><a class="nav-link" href="story.html"><i class="bi bi-pen me-1"></i>Stories</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.html"><i class="bi bi-info-circle me-1"></i>About</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="contact.html"><i class="bi bi-envelope me-1"></i>Contact</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- Main Content Area -->
     <main class="container my-5">
-        <div class="text-center mb-5">
-            <h1 class="text-amber text-uppercase fw-bold">System.Contact</h1>
-            <p class="text-muted">Initialize communication protocol with our team.</p>
+        <div class="text-center mb-5" data-aos="fade-down">
+            <h1 class="text-gold text-uppercase fw-bold tracking-wide h3"><i class="bi bi-terminal me-2"></i>System.Contact</h1>
+            <p class="text-white-50 small">Initialize secure communication protocols with our operational core vectors.</p>
         </div>
 
         <div class="row g-4 justify-content-center">
             
-            <!-- Contact Information Panel -->
-            <div class="col-lg-4">
-                <div class="industrial-panel p-4 h-100">
-                    <h4 class="text-amber mb-4"><i class="bi bi-hdd-network me-2"></i>Connection Endpoints</h4>
-                    <p class="mb-4 text-muted small">We monitor these channels actively. Reach out for support, suggestions, or technical inquiries.</p>
-                    
-                    <ul class="list-unstyled d-flex flex-column gap-4">
-                        <li class="d-flex align-items-start">
-                            <i class="bi bi-envelope-at text-amber fs-4 me-3 mt-1"></i>
-                            <div>
-                                <span class="d-block fw-bold text-white">Email Address</span>
-                                <a href="mailto:info@richesblog.com" class="text-decoration-none text-muted">info@richesblog.com</a>
-                            </div>
-                        </li>
-                        <li class="d-flex align-items-start">
-                            <i class="bi bi-telephone text-amber fs-4 me-3 mt-1"></i>
-                            <div>
-                                <span class="d-block fw-bold text-white">Secure Line</span>
-                                <span class="text-muted">059-190-7870</span>
-                            </div>
-                        </li>
-                        <li class="d-flex align-items-start">
-                            <i class="bi bi-geo-alt text-amber fs-4 me-3 mt-1"></i>
-                            <div>
-                                <span class="d-block fw-bold text-white">Physical Hub</span>
-                                <span class="text-muted">DC 100, Riches World, USA</span>
-                            </div>
-                        </li>
-                    </ul>
+            <div class="col-lg-4" data-aos="fade-right">
+                <div class="glass-panel p-4 h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <h4 class="text-gold h5 mb-4 fw-bold"><i class="bi bi-hdd-network me-2"></i>Endpoints Map</h4>
+                        <p class="mb-4 text-white-50 small">We actively monitor incoming communication pathways for integration queries and technical submissions.</p>
+                        
+                        <ul class="list-unstyled d-flex flex-column gap-4">
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-envelope-at text-gold fs-5 me-3 mt-1"></i>
+                                <div class="overflow-hidden">
+                                    <span class="d-block text-white font-monospace small fw-bold">EMAIL RETURN PATH</span>
+                                    <a href="mailto:info@richesblog.com" class="text-decoration-none text-white-50 small text-truncate d-block">info@richesblog.com</a>
+                                </div>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-telephone text-gold fs-5 me-3 mt-1"></i>
+                                <div>
+                                    <span class="d-block text-white font-monospace small fw-bold">SECURE LINE ARRAYS</span>
+                                    <span class="text-white-50 small">059-190-7870</span>
+                                </div>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="bi bi-geo-alt text-gold fs-5 me-3 mt-1"></i>
+                                <div>
+                                    <span class="d-block text-white font-monospace small fw-bold">PHYSICAL TERMINAL</span>
+                                    <span class="text-white-50 small">DC 100, Riches World, USA</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <!-- Transmission Form Panel -->
-            <div class="col-lg-7">
-                <div class="industrial-panel p-4 p-md-5 h-100">
-                    <h4 class="text-amber mb-4"><i class="bi bi-terminal me-2"></i>Direct Transmission</h4>
+            <div class="col-lg-8" data-aos="fade-left">
+                <div class="glass-panel p-4 p-md-5 h-100">
+                    <h4 class="text-gold h5 mb-4 fw-bold"><i class="bi bi-send-fill me-2"></i>Direct Telemetry Transmission</h4>
                     
-                    <form id="contactForm" action="https://richesbosses.com/form-process.php" method="POST" novalidate>
+                    <div id="diagnosticFeedbackTerminal" class="mb-3 d-none"></div>
+
+                    <form id="contactForm" novalidate>
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="name" class="form-label text-white small fw-bold">IDENTIFIER / NAME</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" required>
+                                <label for="name" class="form-label text-white small font-monospace fw-bold">IDENTIFIER / SENDER NAME</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter full identity name" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="email" class="form-label text-white small fw-bold">RETURN ADDRESS / EMAIL</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="name@domain.com" required>
+                                <label for="email" class="form-label text-white small font-monospace fw-bold">RETURN VECTOR ADDRESS / EMAIL</label>
+                                <input type="email" class="form-control" id="email" placeholder="name@domain.com" required>
                             </div>
                             <div class="col-12">
-                                <label for="message" class="form-label text-white small fw-bold">PAYLOAD / MESSAGE</label>
-                                <textarea class="form-control" id="message" name="message" rows="5" placeholder="Enter your message parameters here..." required></textarea>
+                                <label for="message" class="form-label text-white small font-monospace fw-bold">PAYLOAD CONTENT BLOCK / MESSAGE</label>
+                                <textarea class="form-control" id="message" rows="5" placeholder="Enter transmission body context parameters here..." required></textarea>
                             </div>
                             
-                            <!-- Security Check Mockup -->
                             <div class="col-12 mt-4">
                                 <div class="recaptcha-mock d-flex align-items-center justify-content-center gap-2">
-                                    <i class="bi bi-shield-lock text-amber"></i>
-                                    <span>[ v2.reCAPTCHA validation endpoint waiting ]</span>
-                                    <!-- Real implementation goes here: -->
-                                    <!-- <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div> -->
+                                    <i class="bi bi-shield-lock text-gold"></i>
+                                    <span>[ Network validation protocol node connected ]</span>
                                 </div>
                             </div>
 
                             <div class="col-12 mt-4">
-                                <button type="submit" class="btn btn-amber w-100 py-2 text-uppercase letter-spacing-1">
-                                    <i class="bi bi-send-fill me-2"></i> Execute Transmission
+                                <button type="submit" class="btn btn-gold w-100 py-3 text-uppercase font-monospace tracking-wide" id="submitActionBtn">
+                                    <i class="bi bi-cpu-fill me-2" id="submitBtnIcon"></i> <span id="submitBtnText">Execute Transmission</span>
                                 </button>
                             </div>
                         </div>
@@ -256,78 +254,129 @@
         </div>
     </main>
 
-    <!-- Footer Area -->
-    <footer class="py-4 mt-auto">
-        <div class="container text-center">
-            <div class="d-flex justify-content-center gap-4 mb-3">
-                <a href="https://www.x.com/am_deejay_alex" target="_blank" class="social-link" title="X (Twitter)"><i class="bi bi-twitter-x"></i></a>
-                <a href="https://www.facebook.com/richesbosseswealthy" target="_blank" class="social-link" title="Facebook"><i class="bi bi-facebook"></i></a>
-                <a href="https://www.instagram.com/richesbosses" target="_blank" class="social-link" title="Instagram"><i class="bi bi-instagram"></i></a>
-                <a href="https://www.linkedin.com/in/alhassan-abdul-mumin-b4b0a0258" target="_blank" class="social-link" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-            </div>
-            <p class="mb-0 text-muted small">&copy; 2026 Riches Bosses Blog. All operations secured.</p>
+    <footer class="glass-panel mx-2 mx-md-4 my-4 p-4 text-center shadow mt-auto">
+        <div class="social-links d-flex justify-content-center gap-3 mb-3">
+            <a href="#" target="_blank"><i class="bi bi-twitter-x"></i></a>
+            <a href="https://www.facebook.com/richesbosseswealthy" target="_blank"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/richesbosses" target="_blank"><i class="bi bi-instagram"></i></a>
         </div>
+        <p class="mb-0 text-white-50 small">&copy; 2026 RICHES BOSSES HUB. All transmission telemetry channels encrypted.</p>
     </footer>
 
-    <!-- Bootstrap & Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Robust Form Validation Logic -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>AOS.init({ duration: 800, once: true });</script>
+
     <script>
+        const SUPABASE_URL = 'https://kshqtnqtyeqczswxtgdj.supabase.co';  
+        const SUPABASE_ANON_KEY = 'sb_publishable_BiZTbcIXG58BMRoQskCqmg_9zfrVrIs';  
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('contactForm');
+            const diagnosticTerminal = document.getElementById('diagnosticFeedbackTerminal');
+            
             const nameInput = document.getElementById('name');
             const emailInput = document.getElementById('email');
             const messageInput = document.getElementById('message');
+            
+            const submitBtn = document.getElementById('submitActionBtn');
+            const submitIcon = document.getElementById('submitBtnIcon');
+            const submitText = document.getElementById('submitBtnText');
 
-            form.addEventListener('submit', (e) => {
-                let isValid = true;
-                let errorMessage = "";
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault(); // Intercept browser reload
+                
+                // Reset styling visual states on form submission execution
+                diagnosticTerminal.classList.add('d-none');
+                diagnosticTerminal.className = "alert small font-monospace p-3 mb-3 rounded-3";
+                
+                nameInput.style.borderColor = "";
+                emailInput.style.borderColor = "";
+                messageInput.style.borderColor = "";
 
-                // Name Validation
+                let errorFlagsDetected = false;
+                let validationLogs = [];
+
+                // Name String Check
                 if (nameInput.value.trim() === '') {
-                    isValid = false;
-                    errorMessage += "Error: Identifier (Name) parameter is missing.\n";
-                    nameInput.style.borderColor = "#dc3545";
-                } else {
-                    nameInput.style.borderColor = "";
+                    errorFlagsDetected = true;
+                    nameInput.style.borderColor = "#ff6b6b";
+                    validationLogs.push("Missing string inside [IDENTIFIER] segment.");
                 }
 
-                // Email Validation
+                // Email Pattern Matrix Syntax Check
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (emailInput.value.trim() === '') {
-                    isValid = false;
-                    errorMessage += "Error: Return Address (Email) parameter is missing.\n";
-                    emailInput.style.borderColor = "#dc3545";
+                    errorFlagsDetected = true;
+                    emailInput.style.borderColor = "#ff6b6b";
+                    validationLogs.push("Missing routing endpoint data inside [RETURN VECTOR].");
                 } else if (!emailRegex.test(emailInput.value.trim())) {
-                    isValid = false;
-                    errorMessage += "Error: Return Address syntax is invalid.\n";
-                    emailInput.style.borderColor = "#dc3545";
-                } else {
-                    emailInput.style.borderColor = "";
+                    errorFlagsDetected = true;
+                    emailInput.style.borderColor = "#ff6b6b";
+                    validationLogs.push("Syntax format error flagged inside [RETURN VECTOR].");
                 }
 
-                // Message Validation
+                // Message Text Area Structural Length Check
                 if (messageInput.value.trim() === '') {
-                    isValid = false;
-                    errorMessage += "Error: Payload (Message) cannot be empty.\n";
-                    messageInput.style.borderColor = "#dc3545";
-                } else {
-                    messageInput.style.borderColor = "";
+                    errorFlagsDetected = true;
+                    messageInput.style.borderColor = "#ff6b6b";
+                    validationLogs.push("Payload empty inside [MESSAGE CONTENT BLOCK].");
                 }
 
-                if (!isValid) {
-                    e.preventDefault(); // Halt submission
-                    alert("TRANSMISSION FAILED:\n\n" + errorMessage);
+                if (errorFlagsDetected) {
+                    diagnosticTerminal.classList.remove('d-none');
+                    diagnosticTerminal.classList.add('alert-danger', 'bg-dark', 'border-danger', 'text-danger');
+                    diagnosticTerminal.innerHTML = `<strong>CRITICAL MALFUNCTION ERROR:</strong><br>${validationLogs.join('<br>')}`;
+                    return;
+                }
+
+                // Initialize cloud dataset storage push pipeline operation execution
+                setLoadingUIState(true);
+
+                try {
+                    const { error } = await supabase
+                        .from('contact_messages')
+                        .insert([
+                            {
+                                name: nameInput.value.trim(),
+                                email: emailInput.value.trim(),
+                                message: messageInput.value.trim(),
+                                created_at: new Date().toISOString()
+                            }
+                        ]);
+
+                    if (error) throw error;
+
+                    // Display complete runtime validation transmission success notification
+                    diagnosticTerminal.classList.remove('d-none');
+                    diagnosticTerminal.classList.add('alert-success', 'bg-dark', 'border-success', 'text-success');
+                    diagnosticTerminal.innerHTML = `<strong>TRANSMISSION COMPLETE:</strong> Telemetry package successfully piped into database clusters. Vector pipeline stable.`;
+                    
+                    form.reset(); // Zero form field variables down to base states
+
+                } catch (err) {
+                    console.error("Critical fault executing database transaction stream context:", err);
+                    diagnosticTerminal.classList.remove('d-none');
+                    diagnosticTerminal.classList.add('alert-danger', 'bg-dark', 'border-danger', 'text-danger');
+                    diagnosticTerminal.innerHTML = `<strong>PIPELINE EXCEPTION TRACE:</strong> Database insertion routine rejected structural schema mapping.`;
+                } finally {
+                    setLoadingUIState(false);
                 }
             });
-            
-            /* 
-             * Note: The password strength script was removed from this file because 
-             * a contact form does not typically utilize a password field. If you intend 
-             * to build a user registration form, create a separate architectural block 
-             * for authentication handling.
-             */
+
+            function setLoadingUIState(isLoading) {
+                if (isLoading) {
+                    submitBtn.disabled = true;
+                    submitIcon.className = "bi bi-arrow-clockwise spinner me-2 fs-5";
+                    submitText.textContent = "Processing Telemetry Data...";
+                } else {
+                    submitBtn.disabled = false;
+                    submitIcon.className = "bi bi-cpu-fill me-2";
+                    submitText.textContent = "Execute Transmission";
+                }
+            }
         });
     </script>
 </body>
