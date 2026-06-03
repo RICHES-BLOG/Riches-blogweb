@@ -4,177 +4,353 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | Riches Bosses</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4/dist/umd/supabase.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+        
+        /* Premium Deep-Cosmic Fluid Glass Backdrop */
         body {
             font-family: 'Inter', sans-serif;
-            background: #0a0c1a;
-            color: #fff;
+            background: linear-gradient(135deg, #060814 0%, #0b1120 50%, #15133c 100%) no-repeat center center fixed;
+            background-size: cover;
+            color: #f3f4f6;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
+
+        /* Pure Glassmorphism Layer Mixin */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(18px) saturate(140%);
+            -webkit-backdrop-filter: blur(18px) saturate(140%);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+        }
+
         .login-container {
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle at 20% 30%, #0B0E1A 0%, #05070F 100%);
+            padding: 20px;
         }
+
+        /* Glass Login Window */
         .login-box {
-            background: rgba(18, 22, 45, 0.95);
-            backdrop-filter: blur(14px);
-            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px) saturate(130%);
+            -webkit-backdrop-filter: blur(20px) saturate(130%);
+            padding: 45px 35px;
             border-radius: 28px;
             width: 100%;
-            max-width: 400px;
-            border: 1px solid rgba(255,215,120,0.3);
-        }
-        .login-box h2 {
-            color: #FFD966;
-            margin-bottom: 30px;
+            max-width: 420px;
+            border: 1px solid rgba(255, 215, 120, 0.15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             text-align: center;
         }
-        .login-box input {
-            width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(0,0,0,0.3);
-            color: white;
-            font-size: 1rem;
+
+        .login-box h2 {
+            color: #FFD778;
+            margin-bottom: 35px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 15px rgba(255, 215, 120, 0.2);
         }
-        .login-box button {
+
+        /* Custom Glass Form Controls */
+        .glass-input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .glass-input-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 1.1rem;
+        }
+
+        .login-box input, .modal-content input, .modal-content textarea, .modal-content select {
             width: 100%;
-            padding: 14px;
-            background: #FFB347;
+            padding: 15px 15px 15px 46px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.25);
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .modal-content input, .modal-content textarea, .modal-content select {
+            padding: 14px 16px;
+        }
+
+        .login-box input:focus, .modal-content input:focus, .modal-content textarea:focus, .modal-content select:focus {
+            outline: none;
+            background: rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 179, 71, 0.5);
+            box-shadow: 0 0 15px rgba(255, 179, 71, 0.15);
+        }
+
+        /* Metallic Gold Call-To-Action Controls */
+        .btn-gold {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #FFB347 0%, #FFCC67 100%);
             border: none;
-            border-radius: 12px;
-            font-weight: bold;
+            border-radius: 14px;
+            color: #060814;
+            font-weight: 700;
             cursor: pointer;
             font-size: 1rem;
-            margin-top: 20px;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(255, 179, 71, 0.3);
+            transition: all 0.3s ease;
         }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 179, 71, 0.45);
+            filter: brightness(1.05);
+        }
+
+        /* Admin Master Grid Framework */
         .admin-container {
             display: flex;
             min-height: 100vh;
         }
+
+        /* Glass Side Panel Architecture */
         .sidebar {
             width: 280px;
-            background: rgba(18, 22, 45, 0.95);
-            backdrop-filter: blur(10px);
-            border-right: 1px solid rgba(255,215,120,0.2);
-            padding: 20px;
+            background: rgba(10, 12, 26, 0.45);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 30px 20px;
             position: fixed;
             height: 100vh;
             overflow-y: auto;
+            z-index: 90;
         }
+
         .sidebar h2 {
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            color: #FFD966;
-        }
-        .sidebar nav a {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            color: #FFD778;
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 15px;
-            color: #ccc;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar nav a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            color: rgba(255, 255, 255, 0.65);
             text-decoration: none;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 8px;
-            transition: 0.2s;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
+
         .sidebar nav a:hover, .sidebar nav a.active {
-            background: rgba(255,180,71,0.2);
-            color: #FFD966;
+            background: rgba(255, 179, 71, 0.12);
+            color: #FFD778;
+            border-left: 4px solid #FFB347;
+            padding-left: 14px;
         }
+
         .main-content {
             flex: 1;
             margin-left: 280px;
-            padding: 20px 30px;
+            padding: 35px 40px;
+            width: calc(100% - 280px);
         }
+
+        /* Premium Floating Top Header Bar */
         .header {
-            background: rgba(18, 22, 45, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 15px 25px;
-            border-radius: 15px;
-            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 18px 30px;
+            border-radius: 18px;
+            margin-bottom: 35px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.07);
         }
+
+        .header h3 {
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* Dynamic Analytics Fluid Metric Cards */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: left;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 179, 71, 0.08);
+            border-color: rgba(255, 179, 71, 0.25);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card-info h3 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .stat-card-info p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        .stat-card i {
+            font-size: 2.2rem;
+            color: #FFB347;
+            background: rgba(255, 179, 71, 0.1);
+            padding: 14px;
+            border-radius: 14px;
+        }
+
+        /* Tabular Layout Configurations */
+        .data-table {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            overflow: hidden;
             margin-bottom: 30px;
         }
-        .stat-card {
-            background: rgba(18, 22, 45, 0.8);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .stat-card:hover {
-            transform: translateY(-3px);
-            background: rgba(255,180,71,0.2);
-        }
-        .stat-card i {
-            font-size: 2rem;
-            color: #FFB347;
-            margin-bottom: 10px;
-        }
-        .stat-card h3 {
-            font-size: 2rem;
-        }
-        .data-table {
-            background: rgba(18, 22, 45, 0.8);
-            border-radius: 15px;
+
+        .table-responsive-wrapper {
             overflow-x: auto;
+            width: 100%;
         }
+
         .data-table table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 600px;
+            min-width: 700px;
         }
-        .data-table th, .data-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
+
         .data-table th {
-            background: rgba(0,0,0,0.3);
-            color: #FFD966;
+            background: rgba(0, 0, 0, 0.3);
+            color: #FFD778;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 18px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
+
+        .data-table td {
+            padding: 16px 24px;
+            color: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Refined Action Control Utilities */
         .btn {
-            background: #FFB347;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 10px 20px;
+            border-radius: 10px;
             cursor: pointer;
-            font-weight: 500;
-            margin: 2px;
+            font-weight: 600;
+            color: #fff;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.18);
+        }
+
         .btn-danger {
-            background: #dc3545;
-            color: white;
+            background: rgba(220, 53, 69, 0.2);
+            border-color: rgba(220, 53, 69, 0.4);
+            color: #ff6b7a;
         }
+
+        .btn-danger:hover {
+            background: rgba(220, 53, 69, 0.4);
+            color: #fff;
+        }
+
         .btn-primary {
-            background: #FFB347;
-            color: #0a0c1a;
+            background: rgba(255, 179, 71, 0.15);
+            border-color: rgba(255, 179, 71, 0.3);
+            color: #FFD778;
         }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #FFB347 0%, #FFCC67 100%);
+            color: #060814;
+        }
+
         .btn-sm {
-            padding: 5px 10px;
-            font-size: 0.8rem;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 8px;
         }
+
+        /* Glass Modal View Overlays */
         .modal {
             display: none;
             position: fixed;
@@ -182,103 +358,119 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
+            background: rgba(4, 6, 14, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
+
         .modal-content {
-            background: #1a1d30;
-            padding: 25px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        .modal-content input, .modal-content textarea, .modal-content select {
+            background: rgba(20, 24, 46, 0.75);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 35px;
+            border-radius: 24px;
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(0,0,0,0.3);
-            color: white;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
         }
-        .tab-content {
-            display: none;
+
+        .modal-content h3 {
+            color: #FFD778;
+            margin-bottom: 25px;
+            font-weight: 700;
         }
-        .tab-content.active {
+
+        .modal-content label {
             display: block;
+            margin: 15px 0 5px 0;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
         }
+
+        /* Micro-Animations & Dynamic Feedback Elements */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
+
         .notification {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 12px 20px;
-            border-radius: 10px;
+            top: 25px;
+            right: 25px;
+            padding: 16px 26px;
+            border-radius: 14px;
             color: white;
-            z-index: 1001;
-            animation: slideIn 0.3s ease;
+            z-index: 2000;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
+
         @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
+            from { transform: translateX(120%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
-        @media (max-width: 768px) {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loading { text-align: center; padding: 50px; color: rgba(255, 255, 255, 0.4); }
+        .spinner { animation: spin 1s linear infinite; font-size: 2.2rem; color: #FFB347; display: inline-block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .menu-toggle { display: none; }
+
+        @media (max-width: 992px) {
             .sidebar {
                 transform: translateX(-100%);
-                transition: 0.3s;
-                z-index: 100;
+                transition: transform 0.3s ease;
             }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .main-content {
-                margin-left: 0;
-            }
-            .menu-toggle {
-                display: block;
-            }
-        }
-        .loading {
-            text-align: center;
-            padding: 40px;
-        }
-        .spinner {
-            animation: spin 1s linear infinite;
-            font-size: 2rem;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; width: 100%; padding: 20px; }
+            .menu-toggle { display: inline-flex; }
         }
     </style>
 </head>
 <body>
+
     <div id="app"></div>
 
     <script>
         // ==================== SUPABASE CONFIGURATION ====================
-        // IMPORTANT: Replace these with your actual Supabase credentials
-        const SUPABASE_URL = 'https://kshqtnqtyeqczswxtgdj.supabase.co';  // Replace with your URL
-        const SUPABASE_ANON_KEY = 'sb_publishable_BiZTbcIXG58BMRoQskCqmg_9zfrVrIs';  // Replace with your anon key
+        const SUPABASE_URL = 'https://kshqtnqtyeqczswxtgdj.supabase.co';  
+        const SUPABASE_ANON_KEY = 'sb_publishable_BiZTbcIXG58BMRoQskCqmg_9zfrVrIs';  
         
         let supabase = null;
         let currentUser = null;
         let currentTable = null;
         let editingItem = null;
         
-        // Initialize Supabase
         function initSupabase() {
-            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            try {
+                // Instantiating via window layer safely
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            } catch (err) {
+                console.error("Initialization layer error:", err);
+            }
         }
         
-        // Show notification
         function showNotification(message, type = 'success') {
             const notification = document.createElement('div');
             notification.className = 'notification';
-            notification.style.background = type === 'success' ? '#4CAF50' : (type === 'error' ? '#dc3545' : '#FFB347');
+            if (type === 'success') notification.style.background = 'rgba(76, 175, 80, 0.9)';
+            else if (type === 'error') notification.style.background = 'rgba(220, 53, 69, 0.9)';
+            else notification.style.background = 'rgba(255, 179, 71, 0.9)';
+            
             notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
             document.body.appendChild(notification);
             setTimeout(() => notification.remove(), 3000);
@@ -289,21 +481,27 @@
             document.getElementById('app').innerHTML = `
                 <div class="login-container">
                     <div class="login-box">
-                        <h2><i class="fas fa-crown"></i> Admin Login</h2>
-                        <input type="email" id="loginEmail" placeholder="Email" autocomplete="email">
-                        <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
-                        <button onclick="handleLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
+                        <h2><i class="fas fa-crown" style="color:#FFD778;"></i> Admin Portal</h2>
+                        <div class="glass-input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="loginEmail" placeholder="Admin Email" autocomplete="email">
+                        </div>
+                        <div class="glass-input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="loginPassword" placeholder="Secret Token Key" autocomplete="current-password">
+                        </div>
+                        <button class="btn-gold" onclick="handleLogin()"><i class="fas fa-sign-in-alt"></i> Authenticate System</button>
                     </div>
                 </div>
             `;
         }
         
         async function handleLogin() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
             
             if (!email || !password) {
-                showNotification('Please enter email and password', 'error');
+                showNotification('Credentials entry missing', 'error');
                 return;
             }
             
@@ -311,10 +509,10 @@
                 const { data, error } = await supabase.auth.signInWithPassword({ email, password });
                 if (error) throw error;
                 currentUser = data.user;
-                showNotification('Login successful!', 'success');
+                showNotification('Authentication Granted', 'success');
                 loadAdminDashboard();
             } catch (error) {
-                showNotification('Login failed: ' + error.message, 'error');
+                showNotification(error.message, 'error');
             }
         }
         
@@ -323,108 +521,125 @@
             document.getElementById('app').innerHTML = `
                 <div class="admin-container">
                     <div class="sidebar" id="sidebar">
-                        <h2><i class="fas fa-crown"></i> Riches Bosses</h2>
+                        <h2><i class="fas fa-crown"></i> RICHES BOSSES</h2>
                         <nav>
-                            <a href="#" data-tab="dashboard" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
-                            <a href="#" data-tab="music"><i class="fas fa-music"></i> Music</a>
-                            <a href="#" data-tab="movies"><i class="fas fa-film"></i> Movies</a>
-                            <a href="#" data-tab="blog"><i class="fas fa-blog"></i> Blog</a>
-                            <a href="#" data-tab="contacts"><i class="fas fa-envelope"></i> Contacts</a>
-                            <a href="#" data-tab="subscribers"><i class="fas fa-users"></i> Subscribers</a>
-                            <a href="#" data-tab="import"><i class="fas fa-upload"></i> Import</a>
+                            <a href="#" data-tab="dashboard" class="active"><i class="fas fa-chart-line"></i> Analytics Overview</a>
+                            <a href="#" data-tab="music"><i class="fas fa-music"></i> Audio Records</a>
+                            <a href="#" data-tab="movies"><i class="fas fa-film"></i> Cinema Streams</a>
+                            <a href="#" data-tab="blog"><i class="fas fa-blog"></i> Narrative Feed</a>
+                            <a href="#" data-tab="contacts"><i class="fas fa-envelope"></i> Core Inbox</a>
+                            <a href="#" data-tab="subscribers"><i class="fas fa-users"></i> General Audience</a>
+                            <a href="#" data-tab="import"><i class="fas fa-upload"></i> Engine Sync</a>
                         </nav>
                     </div>
                     <div class="main-content">
                         <div class="header">
-                            <button class="btn menu-toggle" onclick="toggleSidebar()" style="display:none;"><i class="fas fa-bars"></i></button>
-                            <h3 id="pageTitle">Dashboard</h3>
+                            <button class="btn menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+                            <h3 id="pageTitle">Analytics Overview</h3>
                             <div>
-                                <span>${currentUser?.email}</span>
-                                <button class="btn" onclick="handleLogout()" style="background:#333; margin-left:10px;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                                <span style="font-size:0.9rem; margin-right:15px; color:rgba(255,255,255,0.6);"><i class="fa fa-user-shield"></i> ${currentUser?.email}</span>
+                                <button class="btn btn-sm" onclick="handleLogout()" style="border-color:rgba(255,255,255,0.2);"><i class="fas fa-sign-out-alt"></i> Leave</button>
                             </div>
                         </div>
                         
                         <div id="dashboard" class="tab-content active">
-                            <div class="stats-grid" id="statsGrid"><div class="loading"><i class="fas fa-spinner spinner"></i> Loading...</div></div>
+                            <div class="stats-grid" id="statsGrid">
+                                <div class="loading"><i class="fas fa-spinner spinner"></i> Collecting analytics metrics...</div>
+                            </div>
                             <div class="data-table">
-                                <h3 style="padding: 15px;">Recent Contacts</h3>
-                                <div id="recentContacts"></div>
+                                <h4 style="padding: 20px; font-weight:700;"><i class="fa fa-history text-warning"></i> Recent Transmission Feed</h4>
+                                <div class="table-responsive-wrapper" id="recentContacts"></div>
                             </div>
                         </div>
                         
                         <div id="music" class="tab-content">
-                            <div style="margin-bottom: 20px;">
-                                <button class="btn btn-primary" onclick="openAddModal('music')"><i class="fas fa-plus"></i> Add Music</button>
+                            <div style="margin-bottom: 25px;">
+                                <button class="btn btn-primary" onclick="openAddModal('music')"><i class="fas fa-plus-circle"></i> catalog new release</button>
                             </div>
                             <div class="data-table">
-                                <table>
-                                    <thead><tr><th>ID</th><th>Title</th><th>Artist</th><th>Genre</th><th>Plays</th><th>Actions</th></tr></thead>
-                                    <tbody id="musicTableBody"><tr><td colspan="6" class="loading"><i class="fas fa-spinner spinner"></i> Loading...</td></tr></tbody>
-                                </table>
+                                <div class="table-responsive-wrapper">
+                                    <table>
+                                        <thead><tr><th>Track Identification</th><th>Song Title</th><th>Lead Artist</th><th>Sonic Genre</th><th>Streams</th><th>Operations</th></tr></thead>
+                                        <tbody id="musicTableBody"><tr><td colspan="6" class="loading"><i class="fas fa-spinner spinner"></i> Indexing data tracks...</td></tr></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         
                         <div id="movies" class="tab-content">
-                            <div style="margin-bottom: 20px;">
-                                <button class="btn btn-primary" onclick="openAddModal('movies')"><i class="fas fa-plus"></i> Add Movie</button>
+                            <div style="margin-bottom: 25px;">
+                                <button class="btn btn-primary" onclick="openAddModal('movies')"><i class="fas fa-plus-circle"></i> register digital film</button>
                             </div>
                             <div class="data-table">
-                                <table>
-                                    <thead><tr><th>ID</th><th>Title</th><th>Genre</th><th>Year</th><th>Actions</th></tr></thead>
-                                    <tbody id="moviesTableBody"><tr><td colspan="5" class="loading"><i class="fas fa-spinner spinner"></i> Loading...</td></tr></tbody>
-                                </table>
+                                <div class="table-responsive-wrapper">
+                                    <table>
+                                        <thead><tr><th>Catalog ID</th><th>Cinematic Title</th><th>Media Category</th><th>Release Phase</th><th>Operations</th></tr></thead>
+                                        <tbody id="moviesTableBody"><tr><td colspan="5" class="loading"><i class="fas fa-spinner spinner"></i> Tracking storage volumes...</td></tr></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         
                         <div id="blog" class="tab-content">
-                            <div style="margin-bottom: 20px;">
-                                <button class="btn btn-primary" onclick="openAddModal('blog')"><i class="fas fa-plus"></i> Add Post</button>
+                            <div style="margin-bottom: 25px;">
+                                <button class="btn btn-primary" onclick="openAddModal('blog_posts')"><i class="fas fa-plus-circle"></i> compose new post</button>
                             </div>
                             <div class="data-table">
-                                <table>
-                                    <thead><tr><th>ID</th><th>Title</th><th>Category</th><th>Published</th><th>Actions</th></tr></thead>
-                                    <tbody id="blogTableBody"><tr><td colspan="5" class="loading"><i class="fas fa-spinner spinner"></i> Loading...</td></tr></tbody>
-                                </table>
+                                <div class="table-responsive-wrapper">
+                                    <table>
+                                        <thead><tr><th>Post ID</th><th>Document Title</th><th>Category Link</th><th>Status</th><th>Operations</th></tr></thead>
+                                        <tbody id="blogTableBody"><tr><td colspan="5" class="loading"><i class="fas fa-spinner spinner"></i> Querying article data...</td></tr></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         
                         <div id="contacts" class="tab-content">
                             <div class="data-table">
-                                <table>
-                                    <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Message</th><th>Status</th><th>Actions</th></tr></thead>
-                                    <tbody id="contactsTableBody"><tr><td colspan="6" class="loading"><i class="fas fa-spinner spinner"></i> Loading...</td></tr></tbody>
-                                </table>
+                                <div class="table-responsive-wrapper">
+                                    <table>
+                                        <thead><tr><th>ID</th><th>Client Label</th><th>Communications Link</th><th>Message Blueprint</th><th>State</th><th>Operations</th></tr></thead>
+                                        <tbody id="contactsTableBody"><tr><td colspan="6" class="loading"><i class="fas fa-spinner spinner"></i> Sifting entry fields...</td></tr></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         
                         <div id="subscribers" class="tab-content">
                             <div class="data-table">
-                                <table>
-                                    <thead><tr><th>ID</th><th>Email</th><th>Date</th><th>Actions</th></tr></thead>
-                                    <tbody id="subscribersTableBody"><tr><td colspan="4" class="loading"><i class="fas fa-spinner spinner"></i> Loading...</td></tr></tbody>
-                                </table>
+                                <div class="table-responsive-wrapper">
+                                    <table>
+                                        <thead><tr><th>Subscriber Token</th><th>Email Coordinates</th><th>Registry Stamp</th><th>Operations</th></tr></thead>
+                                        <tbody id="subscribersTableBody"><tr><td colspan="4" class="loading"><i class="fas fa-spinner spinner"></i> Indexing registry metrics...</td></tr></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         
                         <div id="import" class="tab-content">
                             <div class="stats-grid">
-                                <div class="stat-card">
-                                    <i class="fas fa-file-json"></i>
-                                    <h3>Import JSON</h3>
-                                    <p>Import music, movies, or blog posts from JSON file</p>
-                                    <input type="file" id="jsonFile" accept=".json" style="margin: 15px 0;">
-                                    <select id="importType" style="width:100%; margin-bottom:10px; padding:8px;">
-                                        <option value="music">Music</option>
-                                        <option value="movies">Movies</option>
-                                        <option value="blog">Blog Posts</option>
+                                <div class="stat-card" style="flex-direction:column; align-items:flex-start; gap:15px;">
+                                    <div>
+                                        <i class="fas fa-file-code"></i>
+                                        <h3 style="font-size:1.4rem; margin-top:10px;">Import Structural Schema</h3>
+                                        <p style="color:rgba(255,255,255,0.5); font-size:0.85rem; margin-top:4px;">Inject backup elements via JSON format packages.</p>
+                                    </div>
+                                    <input type="file" id="jsonFile" accept=".json">
+                                    <select id="importType">
+                                        <option value="music">Audio Archive (music)</option>
+                                        <option value="movies">Cinema Records (movies)</option>
+                                        <option value="blog_posts">Narrative Elements (blog_posts)</option>
                                     </select>
-                                    <button class="btn btn-primary" onclick="importJSON()">Import</button>
+                                    <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="importJSON()">Execute Injection Script</button>
                                 </div>
-                                <div class="stat-card">
-                                    <i class="fas fa-database"></i>
-                                    <h3>Sample Data</h3>
-                                    <p>Load sample data to test the system</p>
-                                    <button class="btn btn-primary" onclick="loadSampleData()">Load Samples</button>
+                                
+                                <div class="stat-card" style="flex-direction:column; align-items:flex-start; justify-content:space-between;">
+                                    <div>
+                                        <i class="fas fa-database"></i>
+                                        <h3 style="font-size:1.4rem; margin-top:10px;">Load Blueprint Nodes</h3>
+                                        <p style="color:rgba(255,255,255,0.5); font-size:0.85rem; margin-top:4px;">Populate network nodes with standard mock templates.</p>
+                                    </div>
+                                    <button class="btn btn-gold" style="margin-top:auto;" onclick="loadSampleData()">Deploy Production Seeds</button>
                                 </div>
                             </div>
                             <div id="importStatus"></div>
@@ -434,38 +649,34 @@
                 
                 <div id="itemModal" class="modal">
                     <div class="modal-content">
-                        <h3 id="modalTitle">Add Item</h3>
+                        <h3 id="modalTitle">Structural Mutation Setup</h3>
                         <div id="modalForm"></div>
-                        <div style="margin-top: 20px;">
-                            <button class="btn btn-primary" onclick="saveItem()">Save</button>
-                            <button class="btn" onclick="closeModal()" style="background:#333;">Cancel</button>
+                        <div style="margin-top: 25px; display:flex; gap:12px; justify-content:flex-end;">
+                            <button class="btn" onclick="closeModal()">Abort Link</button>
+                            <button class="btn btn-primary" onclick="saveItem()">Commit Structure</button>
                         </div>
                     </div>
                 </div>
             `;
             
-            // Add event listeners for tabs
+            // Add event listeners for tabs dynamically
             document.querySelectorAll('[data-tab]').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const tab = link.dataset.tab;
-                    document.querySelectorAll('.tab-content').forEach(content => {
-                        content.classList.remove('active');
-                    });
-                    document.getElementById(tab).classList.add('active');
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    const targetContent = document.getElementById(tab);
+                    if(targetContent) targetContent.classList.add('active');
+                    
                     document.querySelectorAll('[data-tab]').forEach(l => l.classList.remove('active'));
                     link.classList.add('active');
                     document.getElementById('pageTitle').innerText = link.innerText.trim();
+                    if(window.innerWidth <= 992) toggleSidebar();
                 });
             });
             
-            // Load all data
-            loadDashboardStats();
-            loadMusic();
-            loadMovies();
-            loadBlog();
-            loadContacts();
-            loadSubscribers();
+            // Protected Initial Load Strategy
+            refreshAllDataViews();
         }
         
         function toggleSidebar() {
@@ -474,11 +685,20 @@
         
         async function handleLogout() {
             await supabase.auth.signOut();
-            showNotification('Logged out', 'success');
+            showNotification('Session destroyed securely', 'success');
             showLoginPage();
         }
+
+        function refreshAllDataViews() {
+            loadDashboardStats().catch(e => console.error(e));
+            loadMusic().catch(e => console.error(e));
+            loadMovies().catch(e => console.error(e));
+            loadBlog().catch(e => console.error(e));
+            loadContacts().catch(e => console.error(e));
+            loadSubscribers().catch(e => console.error(e));
+        }
         
-        // ==================== DATA LOADING FUNCTIONS ====================
+        // ==================== PROTECTED CORE DATA LOADING FUNCTIONS ====================
         async function loadDashboardStats() {
             try {
                 const [musicCount, moviesCount, blogCount, contactsCount, subscribersCount] = await Promise.all([
@@ -490,160 +710,169 @@
                 ]);
                 
                 document.getElementById('statsGrid').innerHTML = `
-                    <div class="stat-card" onclick="switchTab('music')"><i class="fas fa-music"></i><h3>${musicCount.count || 0}</h3><p>Songs</p></div>
-                    <div class="stat-card" onclick="switchTab('movies')"><i class="fas fa-film"></i><h3>${moviesCount.count || 0}</h3><p>Movies</p></div>
-                    <div class="stat-card" onclick="switchTab('blog')"><i class="fas fa-blog"></i><h3>${blogCount.count || 0}</h3><p>Posts</p></div>
-                    <div class="stat-card" onclick="switchTab('contacts')"><i class="fas fa-envelope"></i><h3>${contactsCount.count || 0}</h3><p>Messages</p></div>
-                    <div class="stat-card" onclick="switchTab('subscribers')"><i class="fas fa-users"></i><h3>${subscribersCount.count || 0}</h3><p>Subscribers</p></div>
+                    <div class="stat-card" onclick="switchTab('music')"><div class="stat-card-info"><h3>${musicCount.count || 0}</h3><p>Audio Catalog</p></div><i class="fas fa-music"></i></div>
+                    <div class="stat-card" onclick="switchTab('movies')"><div class="stat-card-info"><h3>${moviesCount.count || 0}</h3><p>Film Archives</p></div><i class="fas fa-film"></i></div>
+                    <div class="stat-card" onclick="switchTab('blog')"><div class="stat-card-info"><h3>${blogCount.count || 0}</h3><p>Published Articles</p></div><i class="fas fa-blog"></i></div>
+                    <div class="stat-card" onclick="switchTab('contacts')"><div class="stat-card-info"><h3>${contactsCount.count || 0}</h3><p>Inquiries</p></div><i class="fas fa-envelope"></i></div>
+                    <div class="stat-card" onclick="switchTab('subscribers')"><div class="stat-card-info"><h3>${subscribersCount.count || 0}</h3><p>Subscribers</p></div><i class="fas fa-users"></i></div>
                 `;
                 
-                const { data: recentContacts } = await supabase
-                    .from('contacts')
-                    .select('*')
-                    .order('created_at', { ascending: false })
-                    .limit(5);
+                const { data: recentContacts } = await supabase.from('contacts').select('*').order('created_at', { ascending: false }).limit(5);
                 
                 document.getElementById('recentContacts').innerHTML = `
-                    <table style="width:100%">
-                        <thead><tr><th>Name</th><th>Email</th><th>Message</th><th>Date</th></tr></thead>
+                    <table>
+                        <thead><tr><th>Origin Sender</th><th>Digital Gateway</th><th>Data Field Transcript</th></tr></thead>
                         <tbody>
                             ${recentContacts?.map(c => `
                                 <tr>
-                                    <td>${c.name}</td>
-                                    <td>${c.email}</td>
-                                    <td>${c.message?.substring(0, 50)}...</td>
-                                    <td>${new Date(c.created_at).toLocaleDateString()}</td>
+                                    <td><strong>${escapeHtml(c.name)}</strong></td>
+                                    <td>${escapeHtml(c.email)}</td>
+                                    <td><span style="color:rgba(255,255,255,0.65)">${escapeHtml(c.message?.substring(0, 50))}...</span></td>
                                 </tr>
-                            `).join('') || '<tr><td colspan="4">No messages</td></tr>'}
+                            `).join('') || '<tr><td colspan="3" style="text-align:center; padding:30px; color:rgba(255,255,255,0.3)">Inbox buffer clean. No telemetry documents detected.</td></tr>'}
                         </tbody>
                     </table>
                 `;
             } catch (error) {
-                console.error('Error loading dashboard:', error);
+                document.getElementById('statsGrid').innerHTML = `<div style="color:#ff6b7a; padding:20px;"><i class="fa fa-exclamation-triangle"></i> Schema mismatch parsing core matrices: ${error.message}</div>`;
             }
         }
         
         async function loadMusic() {
-            const { data } = await supabase.from('music').select('*').order('id', { ascending: false });
-            document.getElementById('musicTableBody').innerHTML = data?.map(item => `
-                <tr>
-                    <td>${item.id}</td>
-                    <td>${escapeHtml(item.title)}</td>
-                    <td>${escapeHtml(item.artist)}</td>
-                    <td>${item.genre || '-'}</td>
-                    <td>${item.play_count || 0}</td>
-                    <td>
-                        <button class="btn btn-sm btn-primary" onclick="editItem('music', ${item.id})">Edit</button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteItem('music', ${item.id})">Delete</button>
-                    </td>
-                </tr>
-            `).join('') || '<tr><td colspan="6">No music found</td></tr>';
+            try {
+                const { data } = await supabase.from('music').select('*').order('id', { ascending: false });
+                document.getElementById('musicTableBody').innerHTML = data?.map(item => `
+                    <tr>
+                        <td>#${item.id}</td>
+                        <td><strong>${escapeHtml(item.title)}</strong></td>
+                        <td>${escapeHtml(item.artist)}</td>
+                        <td><span style="background:rgba(255,255,255,0.06); padding:4px 10px; border-radius:6px; font-size:0.85rem;">${item.genre || '-'}</span></td>
+                        <td><i class="fa fa-play small text-warning"></i> ${item.play_count || 0}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="editItem('music', ${item.id})"><i class="fa fa-edit"></i> Modify</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteItem('music', ${item.id})"><i class="fa fa-trash"></i> Drop</button>
+                        </td>
+                    </tr>
+                `).join('') || '<tr><td colspan="6" style="text-align:center; padding:20px;">No tracks found matching metrics.</td></tr>';
+            } catch(e) { document.getElementById('musicTableBody').innerHTML = `<tr><td colspan="6" style="color:#ff6b7a; padding:20px;">Schema error reading "music" table.</td></tr>`; }
         }
         
         async function loadMovies() {
-            const { data } = await supabase.from('movies').select('*').order('id', { ascending: false });
-            document.getElementById('moviesTableBody').innerHTML = data?.map(item => `
-                <tr>
-                    <td>${item.id}</td>
-                    <td>${escapeHtml(item.title)}</td>
-                    <td>${item.genre || '-'}</td>
-                    <td>${item.year || '-'}</td>
-                    <td>
-                        <button class="btn btn-sm btn-primary" onclick="editItem('movies', ${item.id})">Edit</button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteItem('movies', ${item.id})">Delete</button>
-                    </td>
-                </tr>
-            `).join('') || '<tr><td colspan="5">No movies found</td></tr>';
+            try {
+                const { data } = await supabase.from('movies').select('*').order('id', { ascending: false });
+                document.getElementById('moviesTableBody').innerHTML = data?.map(item => `
+                    <tr>
+                        <td>#${item.id}</td>
+                        <td><strong>${escapeHtml(item.title)}</strong></td>
+                        <td>${item.genre || '-'}</td>
+                        <td><span class="text-warning">${item.year || '-'}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="editItem('movies', ${item.id})"><i class="fa fa-edit"></i> Modify</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteItem('movies', ${item.id})"><i class="fa fa-trash"></i> Drop</button>
+                        </td>
+                    </tr>
+                `).join('') || '<tr><td colspan="5" style="text-align:center; padding:20px;">No cinematic arrays verified.</td></tr>';
+            } catch(e) { document.getElementById('moviesTableBody').innerHTML = `<tr><td colspan="5" style="color:#ff6b7a; padding:20px;">Schema error reading "movies" table.</td></tr>`; }
         }
         
         async function loadBlog() {
-            const { data } = await supabase.from('blog_posts').select('*').order('id', { ascending: false });
-            document.getElementById('blogTableBody').innerHTML = data?.map(item => `
-                <tr>
-                    <td>${item.id}</td>
-                    <td>${escapeHtml(item.title)}</td>
-                    <td>${item.category || '-'}</td>
-                    <td>${item.published ? '✅ Yes' : '❌ No'}</td>
-                    <td>
-                        <button class="btn btn-sm btn-primary" onclick="editItem('blog', ${item.id})">Edit</button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteItem('blog', ${item.id})">Delete</button>
-                    </td>
-                </tr>
-            `).join('') || '<tr><td colspan="5">No blog posts found</td></tr>';
+            try {
+                // FIXED: Standardizing on target master key "blog_posts" table schema consistently
+                const { data } = await supabase.from('blog_posts').select('*').order('id', { ascending: false });
+                document.getElementById('blogTableBody').innerHTML = data?.map(item => `
+                    <tr>
+                        <td>#${item.id}</td>
+                        <td><strong>${escapeHtml(item.title)}</strong></td>
+                        <td>${item.category || '-'}</td>
+                        <td>${item.published ? '<span style="color:#4CAF50;"><i class="fa fa-circle"></i> Active Stream</span>' : '<span style="color:rgba(255,255,255,0.3);"><i class="fa fa-circle"></i> Staged Sandbox</span>'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="editItem('blog_posts', ${item.id})"><i class="fa fa-edit"></i> Modify</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteItem('blog_posts', ${item.id})"><i class="fa fa-trash"></i> Drop</button>
+                        </td>
+                    </tr>
+                `).join('') || '<tr><td colspan="5" style="text-align:center; padding:20px;">No editorial entries detected.</td></tr>';
+            } catch(e) { document.getElementById('blogTableBody').innerHTML = `<tr><td colspan="5" style="color:#ff6b7a; padding:20px;">Schema error reading "blog_posts" table.</td></tr>`; }
         }
         
         async function loadContacts() {
-            const { data } = await supabase.from('contacts').select('*').order('created_at', { ascending: false });
-            document.getElementById('contactsTableBody').innerHTML = data?.map(item => `
-                <tr>
-                    <td>${item.id}</td>
-                    <td>${escapeHtml(item.name)}</td>
-                    <td>${escapeHtml(item.email)}</td>
-                    <td>${escapeHtml(item.message?.substring(0, 50))}...</td>
-                    <td><span style="background:${item.status === 'unread' ? '#dc3545' : '#28a745'}; padding:3px 8px; border-radius:12px;">${item.status}</span></td>
-                    <td>
-                        <button class="btn btn-sm" onclick="markContactRead(${item.id})">Mark Read</button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteItem('contacts', ${item.id})">Delete</button>
-                    </td>
-                </tr>
-            `).join('') || '<tr><td colspan="6">No messages</td></tr>';
+            try {
+                const { data } = await supabase.from('contacts').select('*').order('created_at', { ascending: false });
+                document.getElementById('contactsTableBody').innerHTML = data?.map(item => `
+                    <tr>
+                        <td>#${item.id}</td>
+                        <td><strong>${escapeHtml(item.name)}</strong></td>
+                        <td>${escapeHtml(item.email)}</td>
+                        <td><span style="font-size:0.9rem; color:rgba(255,255,255,0.7);">${escapeHtml(item.message)}</span></td>
+                        <td><span style="background:${item.status === 'unread' ? 'rgba(220,53,69,0.2)' : 'rgba(40,167,69,0.2)'}; color:${item.status === 'unread' ? '#ff6b7a' : '#5cd67b'}; padding:4px 10px; border-radius:12px; font-size:0.8rem; font-weight:700;">${item.status}</span></td>
+                        <td>
+                            <button class="btn btn-sm" onclick="markContactRead(${item.id})"><i class="fa fa-check"></i> Clear</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteItem('contacts', ${item.id})"><i class="fa fa-trash"></i> Drop</button>
+                        </td>
+                    </tr>
+                `).join('') || '<tr><td colspan="6" style="text-align:center; padding:20px;">No telemetry messages in buffer log.</td></tr>';
+            } catch(e) { document.getElementById('contactsTableBody').innerHTML = `<tr><td colspan="6" style="color:#ff6b7a; padding:20px;">Schema error reading "contacts" table.</td></tr>`; }
         }
         
         async function loadSubscribers() {
-            const { data } = await supabase.from('subscribers').select('*').order('subscribed_at', { ascending: false });
-            document.getElementById('subscribersTableBody').innerHTML = data?.map(item => `
-                <tr>
-                    <td>${item.id}</td>
-                    <td>${escapeHtml(item.email)}</td>
-                    <td>${new Date(item.subscribed_at).toLocaleDateString()}</td>
-                    <td><button class="btn btn-sm btn-danger" onclick="deleteItem('subscribers', ${item.id})">Delete</button></td>
-                </tr>
-            `).join('') || '<tr><td colspan="4">No subscribers</td></tr>';
+            try {
+                const { data } = await supabase.from('subscribers').select('*').order('subscribed_at', { ascending: false });
+                document.getElementById('subscribersTableBody').innerHTML = data?.map(item => `
+                    <tr>
+                        <td>#${item.id}</td>
+                        <td><strong>${escapeHtml(item.email)}</strong></td>
+                        <td><i class="fa fa-calendar-alt small opacity-50"></i> ${new Date(item.subscribed_at || item.created_at).toLocaleDateString()}</td>
+                        <td><button class="btn btn-sm btn-danger" onclick="deleteItem('subscribers', ${item.id})"><i class="fa fa-trash"></i> Evict</button></td>
+                    </tr>
+                `).join('') || '<tr><td colspan="4" style="text-align:center; padding:20px;">Subscribers array empty.</td></tr>';
+            } catch(e) { document.getElementById('subscribersTableBody').innerHTML = `<tr><td colspan="4" style="color:#ff6b7a; padding:20px;">Schema error reading "subscribers" table.</td></tr>`; }
         }
         
         function switchTab(tab) {
-            document.querySelector(`[data-tab="${tab}"]`).click();
+            const tabButton = document.querySelector(`[data-tab="${tab}"]`);
+            if(tabButton) tabButton.click();
         }
         
-        // ==================== CRUD OPERATIONS ====================
+        // ==================== CRUD OPERATION LAYERS ====================
         function openAddModal(table) {
             currentTable = table;
             editingItem = null;
-            document.getElementById('modalTitle').innerText = `Add ${table.toUpperCase()}`;
+            document.getElementById('modalTitle').innerText = `Catalog Entry Pipeline [Table: ${table}]`;
             
             let formHtml = '';
             if (table === 'music') {
                 formHtml = `
-                    <input type="text" id="title" placeholder="Title *" required>
-                    <input type="text" id="artist" placeholder="Artist *" required>
-                    <input type="text" id="genre" placeholder="Genre">
-                    <input type="text" id="category" placeholder="Category">
-                    <input type="number" id="year" placeholder="Year">
-                    <input type="url" id="file_url" placeholder="Audio URL *" required>
-                    <input type="url" id="cover_image" placeholder="Cover Image URL">
-                    <textarea id="description" placeholder="Description" rows="3"></textarea>
-                    <select id="country"><option value="Ghana">Ghana</option><option value="Nigeria">Nigeria</option></select>
+                    <label>Track Name *</label><input type="text" id="title" required>
+                    <label>Lead Performing Artist *</label><input type="text" id="artist" required>
+                    <label>Sonic Genre Profile</label><input type="text" id="genre" placeholder="e.g. Afrobeats, Hip-Hop">
+                    <label>Structural Sub-Category</label><input type="text" id="category">
+                    <label>Production Year Calendar</label><input type="number" id="year" value="2026">
+                    <label>Digital Audio File Stream URL *</label><input type="url" id="file_url" required>
+                    <label>High Definition Artwork Cover URL</label><input type="url" id="cover_image">
+                    <label>Release Notes Log Summary</label><textarea id="description" rows="3"></textarea>
+                    <label>Geographic Origin Vector</label><select id="country"><option value="Ghana">Ghana</option><option value="Nigeria">Nigeria</option></select>
                 `;
             } else if (table === 'movies') {
                 formHtml = `
-                    <input type="text" id="title" placeholder="Title *" required>
-                    <input type="text" id="genre" placeholder="Genre">
-                    <input type="text" id="category" placeholder="Category">
-                    <input type="number" id="year" placeholder="Year">
-                    <input type="text" id="rating" placeholder="Rating (PG, R, etc)">
-                    <input type="text" id="duration" placeholder="Duration (e.g., 2h 15min)">
-                    <textarea id="description" placeholder="Description" rows="3"></textarea>
-                    <input type="url" id="cover_image" placeholder="Cover Image URL">
-                    <input type="url" id="trailer_url" placeholder="Trailer URL">
+                    <label>Cinematic Project Title *</label><input type="text" id="title" required>
+                    <label>Media Core Genre</label><input type="text" id="genre">
+                    <label>Structural Segment Category</label><input type="text" id="category">
+                    <label>Distribution Matrix Year</label><input type="number" id="year" value="2026">
+                    <label>Regulatory System Rating</label><input type="text" id="rating" placeholder="PG-13, R, General">
+                    <label>Stream Runtime Duration</label><input type="text" id="duration" placeholder="e.g. 2h 15min">
+                    <label>Plot Synthesis Document</label><textarea id="description" rows="3"></textarea>
+                    <label>High Definition Promotional Cover URL</label><input type="url" id="cover_image">
+                    <label>Digital Trailer Stream Web URL</label><input type="url" id="trailer_url">
                 `;
-            } else if (table === 'blog') {
+            } else if (table === 'blog_posts') {
                 formHtml = `
-                    <input type="text" id="title" placeholder="Title *" required>
-                    <input type="text" id="slug" placeholder="URL Slug (auto-generated if empty)">
-                    <textarea id="content" placeholder="Content *" rows="5" required></textarea>
-                    <input type="text" id="category" placeholder="Category">
-                    <input type="url" id="cover_image" placeholder="Cover Image URL">
-                    <label><input type="checkbox" id="published"> Published</label>
+                    <label>Document Title Head *</label><input type="text" id="title" required>
+                    <label>System Router URL Slug</label><input type="text" id="slug" placeholder="auto-generated-if-blank">
+                    <label>Article Document Content Data Body *</label><textarea id="content" rows="6" required></textarea>
+                    <label>Structural Group Category</label><input type="text" id="category">
+                    <label>Banner Image Asset Gateway URL</label><input type="url" id="cover_image">
+                    <label style="display:flex; align-items:center; gap:10px; margin-top:15px; cursor:pointer;">
+                        <input type="checkbox" id="published" style="width:auto; margin:0;"> Broadcast immediately to master live nodes
+                    </label>
                 `;
             }
             
@@ -654,111 +883,141 @@
         async function editItem(table, id) {
             currentTable = table;
             editingItem = id;
-            document.getElementById('modalTitle').innerText = `Edit ${table.toUpperCase()}`;
+            document.getElementById('modalTitle').innerText = `Modify Existing Node Data Matrix [ID: #${id}]`;
             
-            const { data } = await supabase.from(table).select('*').eq('id', id).single();
-            
-            let formHtml = '';
-            if (table === 'music') {
-                formHtml = `
-                    <input type="text" id="title" value="${escapeHtml(data.title || '')}" placeholder="Title" required>
-                    <input type="text" id="artist" value="${escapeHtml(data.artist || '')}" placeholder="Artist" required>
-                    <input type="text" id="genre" value="${escapeHtml(data.genre || '')}" placeholder="Genre">
-                    <input type="text" id="category" value="${escapeHtml(data.category || '')}" placeholder="Category">
-                    <input type="number" id="year" value="${data.year || ''}" placeholder="Year">
-                    <input type="url" id="file_url" value="${data.file_url || ''}" placeholder="Audio URL" required>
-                    <input type="url" id="cover_image" value="${data.cover_image || ''}" placeholder="Cover Image URL">
-                    <textarea id="description" placeholder="Description" rows="3">${escapeHtml(data.description || '')}</textarea>
-                    <select id="country"><option value="Ghana" ${data.country === 'Ghana' ? 'selected' : ''}>Ghana</option><option value="Nigeria" ${data.country === 'Nigeria' ? 'selected' : ''}>Nigeria</option></select>
-                `;
-            } else if (table === 'movies') {
-                formHtml = `
-                    <input type="text" id="title" value="${escapeHtml(data.title || '')}" placeholder="Title" required>
-                    <input type="text" id="genre" value="${escapeHtml(data.genre || '')}" placeholder="Genre">
-                    <input type="text" id="category" value="${escapeHtml(data.category || '')}" placeholder="Category">
-                    <input type="number" id="year" value="${data.year || ''}" placeholder="Year">
-                    <input type="text" id="rating" value="${escapeHtml(data.rating || '')}" placeholder="Rating">
-                    <input type="text" id="duration" value="${escapeHtml(data.duration || '')}" placeholder="Duration">
-                    <textarea id="description" placeholder="Description" rows="3">${escapeHtml(data.description || '')}</textarea>
-                    <input type="url" id="cover_image" value="${data.cover_image || ''}" placeholder="Cover Image URL">
-                    <input type="url" id="trailer_url" value="${data.trailer_url || ''}" placeholder="Trailer URL">
-                `;
-            } else if (table === 'blog') {
-                formHtml = `
-                    <input type="text" id="title" value="${escapeHtml(data.title || '')}" placeholder="Title" required>
-                    <input type="text" id="slug" value="${escapeHtml(data.slug || '')}" placeholder="URL Slug">
-                    <textarea id="content" placeholder="Content" rows="5" required>${escapeHtml(data.content || '')}</textarea>
-                    <input type="text" id="category" value="${escapeHtml(data.category || '')}" placeholder="Category">
-                    <input type="url" id="cover_image" value="${data.cover_image || ''}" placeholder="Cover Image URL">
-                    <label><input type="checkbox" id="published" ${data.published ? 'checked' : ''}> Published</label>
-                `;
+            try {
+                const { data, error } = await supabase.from(table).select('*').eq('id', id).single();
+                if (error) throw error;
+                
+                let formHtml = '';
+                if (table === 'music') {
+                    formHtml = `
+                        <label>Track Name *</label><input type="text" id="title" value="${escapeHtml(data.title || '')}" required>
+                        <label>Lead Performing Artist *</label><input type="text" id="artist" value="${escapeHtml(data.artist || '')}" required>
+                        <label>Sonic Genre Profile</label><input type="text" id="genre" value="${escapeHtml(data.genre || '')}">
+                        <label>Structural Sub-Category</label><input type="text" id="category" value="${escapeHtml(data.category || '')}">
+                        <label>Production Year Calendar</label><input type="number" id="year" value="${data.year || ''}">
+                        <label>Digital Audio File Stream URL *</label><input type="url" id="file_url" value="${data.file_url || ''}" required>
+                        <label>High Definition Artwork Cover URL</label><input type="url" id="cover_image" value="${data.cover_image || ''}">
+                        <label>Release Notes Log Summary</label><textarea id="description" rows="3">${escapeHtml(data.description || '')}</textarea>
+                        <label>Geographic Origin Vector</label><select id="country"><option value="Ghana" ${data.country === 'Ghana' ? 'selected' : ''}>Ghana</option><option value="Nigeria" ${data.country === 'Nigeria' ? 'selected' : ''}>Nigeria</option></select>
+                    `;
+                } else if (table === 'movies') {
+                    formHtml = `
+                        <label>Cinematic Project Title *</label><input type="text" id="title" value="${escapeHtml(data.title || '')}" required>
+                        <label>Media Core Genre</label><input type="text" id="genre" value="${escapeHtml(data.genre || '')}">
+                        <label>Structural Segment Category</label><input type="text" id="category" value="${escapeHtml(data.category || '')}">
+                        <label>Distribution Matrix Year</label><input type="number" id="year" value="${data.year || ''}">
+                        <label>Regulatory System Rating</label><input type="text" id="rating" value="${escapeHtml(data.rating || '')}">
+                        <label>Stream Runtime Duration</label><input type="text" id="duration" value="${escapeHtml(data.duration || '')}">
+                        <label>Plot Synthesis Document</label><textarea id="description" rows="3">${escapeHtml(data.description || '')}</textarea>
+                        <label>High Definition Promotional Cover URL</label><input type="url" id="cover_image" value="${data.cover_image || ''}">
+                        <label>Digital Trailer Stream Web URL</label><input type="url" id="trailer_url" value="${data.trailer_url || ''}">
+                    `;
+                } else if (table === 'blog_posts') {
+                    formHtml = `
+                        <label>Document Title Head *</label><input type="text" id="title" value="${escapeHtml(data.title || '')}" required>
+                        <label>System Router URL Slug</label><input type="text" id="slug" value="${escapeHtml(data.slug || '')}">
+                        <label>Article Document Content Data Body *</label><textarea id="content" rows="6" required>${escapeHtml(data.content || '')}</textarea>
+                        <label>Structural Group Category</label><input type="text" id="category" value="${escapeHtml(data.category || '')}">
+                        <label>Banner Image Asset Gateway URL</label><input type="url" id="cover_image" value="${data.cover_image || ''}">
+                        <label style="display:flex; align-items:center; gap:10px; margin-top:15px; cursor:pointer;">
+                            <input type="checkbox" id="published" ${data.published ? 'checked' : ''} style="width:auto; margin:0;"> Broadcast immediately to master live nodes
+                        </label>
+                    `;
+                }
+                
+                document.getElementById('modalForm').innerHTML = formHtml;
+                document.getElementById('itemModal').style.display = 'flex';
+            } catch(error) {
+                showNotification('Could not resolve data nodes: ' + error.message, 'error');
             }
-            
-            document.getElementById('modalForm').innerHTML = formHtml;
-            document.getElementById('itemModal').style.display = 'flex';
         }
         
         async function saveItem() {
             const formData = {};
             const inputs = document.querySelectorAll('#modalForm input, #modalForm textarea, #modalForm select');
+            
+            let verificationCheckPassed = true;
             inputs.forEach(input => {
+                if (input.hasAttribute('required') && !input.value.trim()) {
+                    verificationCheckPassed = false;
+                }
                 if (input.type === 'checkbox') {
                     formData[input.id] = input.checked;
-                } else if (input.value) {
-                    formData[input.id] = input.value;
+                } else {
+                    formData[input.id] = input.value.trim() ? input.value.trim() : null;
                 }
             });
             
+            if(!verificationCheckPassed) {
+                showNotification('Please fill in all mandatory data fields', 'error');
+                return;
+            }
+
+            if(currentTable === 'blog_posts' && !formData['slug'] && formData['title']) {
+                formData['slug'] = formData['title'].toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            }
+            
             try {
                 if (editingItem) {
-                    await supabase.from(currentTable).update(formData).eq('id', editingItem);
-                    showNotification('Item updated!', 'success');
+                    const { error } = await supabase.from(currentTable).update(formData).eq('id', editingItem);
+                    if(error) throw error;
+                    showNotification('System Node Mutated Successfully', 'success');
                 } else {
-                    await supabase.from(currentTable).insert([formData]);
-                    showNotification('Item added!', 'success');
+                    const { error } = await supabase.from(currentTable).insert([formData]);
+                    if(error) throw error;
+                    showNotification('Structural Element Injected Cleanly', 'success');
                 }
                 closeModal();
                 
-                // Reload the appropriate table
                 if (currentTable === 'music') loadMusic();
                 else if (currentTable === 'movies') loadMovies();
-                else if (currentTable === 'blog') loadBlog();
+                else if (currentTable === 'blog_posts') loadBlog();
                 loadDashboardStats();
             } catch (error) {
-                showNotification('Error: ' + error.message, 'error');
+                showNotification('Write sequence error: ' + error.message, 'error');
             }
         }
         
         async function deleteItem(table, id) {
-            if (confirm('Are you sure you want to delete this item?')) {
-                await supabase.from(table).delete().eq('id', id);
-                showNotification('Item deleted!', 'success');
-                if (table === 'music') loadMusic();
-                else if (table === 'movies') loadMovies();
-                else if (table === 'blog') loadBlog();
-                else if (table === 'contacts') loadContacts();
-                else if (table === 'subscribers') loadSubscribers();
-                loadDashboardStats();
+            if (confirm('Execute permanent drop script on this structural entity row?')) {
+                try {
+                    const { error } = await supabase.from(table).delete().eq('id', id);
+                    if(error) throw error;
+                    showNotification('Entity purged from system tables', 'success');
+                    if (table === 'music') loadMusic();
+                    else if (table === 'movies') loadMovies();
+                    else if (table === 'blog_posts') loadBlog();
+                    else if (table === 'contacts') loadContacts();
+                    else if (table === 'subscribers') loadSubscribers();
+                    loadDashboardStats();
+                } catch(error) {
+                    showNotification('Drop command error: ' + error.message, 'error');
+                }
             }
         }
         
         async function markContactRead(id) {
-            await supabase.from('contacts').update({ status: 'read' }).eq('id', id);
-            loadContacts();
-            showNotification('Marked as read', 'success');
+            try {
+                const { error } = await supabase.from('contacts').update({ status: 'read' }).eq('id', id);
+                if(error) throw error;
+                loadContacts();
+                showNotification('Telemetry item cleared', 'success');
+            } catch(err) { showNotification(err.message, 'error'); }
         }
         
         function closeModal() {
             document.getElementById('itemModal').style.display = 'none';
         }
         
-        // ==================== IMPORT FUNCTIONS ====================
+        // ==================== INJECTION & SAMPLE SEED RECOVERY ENGINE ====================
         async function importJSON() {
             const fileInput = document.getElementById('jsonFile');
             const importType = document.getElementById('importType').value;
             
             if (!fileInput.files[0]) {
-                showNotification('Please select a JSON file', 'error');
+                showNotification('Target file parsing payload target void', 'error');
                 return;
             }
             
@@ -766,21 +1025,24 @@
             reader.onload = async (e) => {
                 try {
                     const data = JSON.parse(e.target.result);
-                    let table = importType === 'music' ? 'music' : (importType === 'movies' ? 'movies' : 'blog_posts');
                     const items = Array.isArray(data) ? data : [data];
                     
+                    let importedSuccessfulCount = 0;
                     for (const item of items) {
-                        await supabase.from(table).insert([item]);
+                        // Stripping primary system auto-incrementing identity keys safely if needed
+                        if(item.id) delete item.id;
+                        const { error } = await supabase.from(importType).insert([item]);
+                        if(!error) importedSuccessfulCount++;
                     }
-                    showNotification(`Imported ${items.length} items!`, 'success');
-                    document.getElementById('importStatus').innerHTML = `<p style="color: #4CAF50; padding: 10px;">✅ Successfully imported ${items.length} ${importType} items</p>`;
+                    
+                    showNotification(`Sync phase execution completed [${importedSuccessfulCount}/${items.length} Elements Linked]`, 'success');
                     
                     if (importType === 'music') loadMusic();
                     else if (importType === 'movies') loadMovies();
                     else loadBlog();
                     loadDashboardStats();
                 } catch (error) {
-                    showNotification('Error parsing JSON: ' + error.message, 'error');
+                    showNotification('Cryptographic verification failure: ' + error.message, 'error');
                 }
             };
             reader.readAsText(fileInput.files[0]);
@@ -788,22 +1050,28 @@
         
         async function loadSampleData() {
             const sampleMusic = [
-                { title: "Jejereje", artist: "Stonebwoy", genre: "Afrobeats", file_url: "https://example.com/sample.mp3", country: "Ghana", year: 2024 },
-                { title: "On The Low", artist: "Burna Boy", genre: "Afrobeats", file_url: "https://example.com/sample2.mp3", country: "Nigeria", year: 2023 },
-                { title: "Kante", artist: "Shatta Wale", genre: "Dancehall", file_url: "https://example.com/sample3.mp3", country: "Ghana", year: 2024 }
+                { title: "Jejereje", artist: "Stonebwoy", genre: "Afrobeats", file_url: "https://example.com/stream1.mp3", country: "Ghana", year: 2026 },
+                { title: "On The Low", artist: "Burna Boy", genre: "Afrobeats", file_url: "https://example.com/stream2.mp3", country: "Nigeria", year: 2025 },
+                { title: "Kante", artist: "Shatta Wale", genre: "Dancehall", file_url: "https://example.com/stream3.mp3", country: "Ghana", year: 2026 }
             ];
             
-            for (const item of sampleMusic) {
-                await supabase.from('music').insert([item]);
+            try {
+                let loadSuccessCount = 0;
+                for (const item of sampleMusic) {
+                    const { error } = await supabase.from('music').insert([item]);
+                    if(!error) loadSuccessCount++;
+                }
+                loadMusic();
+                loadDashboardStats();
+                showNotification(`${loadSuccessCount} Blueprint data configurations deployed successfully`, 'success');
+            } catch(err) {
+                showNotification('Seed failure execution error', 'error');
             }
-            loadMusic();
-            loadDashboardStats();
-            showNotification('Sample music data loaded!', 'success');
         }
         
         function escapeHtml(str) {
             if (!str) return '';
-            return str.replace(/[&<>]/g, function(m) {
+            return str.toString().replace(/[&<>]/g, m => {
                 if (m === '&') return '&amp;';
                 if (m === '<') return '&lt;';
                 if (m === '>') return '&gt;';
@@ -811,19 +1079,33 @@
             });
         }
         
-        // ==================== INITIALIZE ====================
+        // ==================== SYSTEM BOOT VECTOR ====================
         initSupabase();
         
-        // Check for existing session
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            if (session) {
-                currentUser = session.user;
-                loadAdminDashboard();
-            } else {
+        if (supabase) {
+            supabase.auth.getSession().then(({ data: { session } }) => {
+                if (session) {
+                    currentUser = session.user;
+                    loadAdminDashboard();
+                } else {
+                    showLoginPage();
+                }
+            }).catch(err => {
+                console.error("Auth layer connection drop:", err);
                 showLoginPage();
-            }
-        });
+            });
+        } else {
+            document.getElementById('app').innerHTML = `
+                <div class="login-container">
+                    <div class="login-box" style="max-width:550px; border-color:rgba(220,53,69,0.4);">
+                        <h2 style="color:#ff6b7a;"><i class="fa fa-exclamation-triangle"></i> System Mount Alert</h2>
+                        <p style="text-align:left; font-size:0.95rem; line-height:1.6; color:rgba(255,255,255,0.7);">
+                            The framework engine could not construct the connection tunnel layer to Supabase. Please verify your asset access parameters inside your application environment settings.
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
     </script>
-
 </body>
 </html>
